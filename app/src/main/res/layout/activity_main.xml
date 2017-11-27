@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context="com.example.arturmusayelyan.task1.MainActivity">
+
+    <EditText
+        android:id="@+id/username_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="90dp"
+        android:background="@android:color/white"
+        android:ems="12"
+        android:hint=" username"
+        android:maxLines="2"
+        android:paddingTop="8dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/holo_green_dark" />
+
+    <EditText
+        android:id="@+id/password_et"
+        android:inputType="textPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/username_et"
+        android:layout_below="@+id/username_et"
+        android:layout_marginTop="23dp"
+        android:background="@android:color/white"
+        android:ems="12"
+        android:hint=" password"
+        android:maxLines="2"
+        android:paddingTop="8dp"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/holo_green_dark" />
+    <Button
+        android:id="@+id/signin_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Sign In"
+        android:layout_below="@id/password_et"
+        android:layout_alignLeft="@id/password_et"
+        android:layout_marginTop="8dp"
+        android:onClick="onClick"
+        android:background="@drawable/signin_btn"/>
+    <Button
+        android:id="@+id/register_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="register"
+        android:background="@drawable/register_btn"
+        android:layout_below="@id/password_et"
+       android:layout_alignRight="@id/password_et"
+        android:onClick="onClick"
+        android:layout_marginTop="8dp"
+        />
+
+
+
+
+</RelativeLayout>

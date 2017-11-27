@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/registration_background"
+    tools:context="com.example.arturmusayelyan.task1.Registration">
+
+    <EditText
+        android:id="@+id/register_name_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="70dp"
+        android:ems="12"
+        android:hint=" Name"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black" />
+
+    <EditText
+        android:id="@+id/register_surname_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/register_name_et"
+        android:layout_below="@+id/register_name_et"
+        android:layout_marginTop="3dp"
+        android:ems="12"
+        android:hint=" Surname"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black" />
+
+    <EditText
+        android:id="@+id/register_username_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/register_surname_et"
+        android:layout_below="@+id/register_surname_et"
+        android:layout_marginTop="3dp"
+        android:hint=" Username"
+        android:textColorHint="@android:color/black"
+        android:textColor="@android:color/white"
+        android:ems="12" />
+
+    <EditText
+        android:id="@+id/register_password_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/register_username_et"
+        android:layout_below="@+id/register_username_et"
+        android:ems="12"
+        android:hint=" Password"
+        android:textColorHint="@android:color/black"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="3dp"/>
+
+    <Button
+        android:id="@+id/register_btn2"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/register_password_et"
+        android:layout_below="@+id/register_password_et"
+        android:background="@drawable/register_btn"
+        android:layout_marginTop="3dp"
+        android:text="register" />
+
+
+</RelativeLayout>
