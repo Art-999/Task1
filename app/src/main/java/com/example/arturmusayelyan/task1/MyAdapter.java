@@ -29,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void addMessage(Message msg) {
         messageData.add(msg);
         notifyDataSetChanged();
-        Log.d("Art_Log","worked");
+        Log.d("Art_Log", "worked");
     }
 
 
@@ -43,14 +43,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         com.example.arturmusayelyan.task1.Message currentMessage = messageData.get(position);
 
-        if (currentMessage.isFromLeftUser()) {
+        if (currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
             holder.tvYourMessage.setText(currentMessage.getMessageText());
             holder.tvOtherMessage.setVisibility(View.INVISIBLE);
-        } else if (!currentMessage.isFromLeftUser()){
+        } else if (!currentMessage.isFromLeftUser()) {
             holder.tvOtherMessage.setText(currentMessage.getMessageText());
             holder.tvYourMessage.setVisibility(View.INVISIBLE);
-        }
-        else if(currentMessage.getImageUri()!=null){
+        } else if (currentMessage.getImageUri() != null) {
+            Log.d("Art", "ImageUri worked");
+            holder.tvYourMessage.setVisibility(View.GONE);
+            holder.tvOtherMessage.setVisibility(View.GONE);
+
             holder.imageView.setVisibility(View.VISIBLE);
             holder.imageView.setImageURI(currentMessage.getImageUri());
         }
@@ -76,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemView);
             tvYourMessage = itemView.findViewById(R.id.tv_yourMessage);
             tvOtherMessage = itemView.findViewById(R.id.tv_otherMessage);
-            imageView=itemView.findViewById(R.id.imageView1);
+            imageView = itemView.findViewById(R.id.imageView1);
         }
     }
 }

@@ -60,7 +60,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 setIntentToSignIn();
             }
         });
-        builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                dialog.cancel();

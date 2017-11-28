@@ -32,6 +32,14 @@ public class Message {
         this.sendToUser = sendToUser;
         this.imageUri = imageUri;
     }
+
+    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri) {
+        this.messageText = messageText;
+        this.sendFromUser = sendFromUser;
+        this.sendToUser = sendToUser;
+        this.imageUri = imageUri;
+    }
+
     public Message(String messageText, boolean fromLeftUser, Uri image) {
         this.messageText = messageText;
         this.fromLeftUser = fromLeftUser;

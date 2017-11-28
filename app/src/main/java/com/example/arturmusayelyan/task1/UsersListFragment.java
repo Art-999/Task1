@@ -47,14 +47,14 @@ public class UsersListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String dialogPosition = listView.getItemAtPosition(position).toString();
                 setPersonDialog(dialogPosition);
-                Log.d("Art","click worked");
+                Log.d("Art", "click worked");
             }
         });
         listView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.single_row, R.id.tv_for_single_row, list));
         return view;
     }
 
-    public void setPersonDialog(String position) {
+    public void setPersonDialog(final String position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true);
 
@@ -64,13 +64,22 @@ public class UsersListFragment extends Fragment {
                 break;
             }
         }
-        builder.setPositiveButton("Chat", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent=new Intent(getActivity(),ChatActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (!position.equals(MainActivity.getParentUserName())) {
+            builder.setPositiveButton("Chat", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("keyForChatWithSelectedUser",position);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+        }
         AlertDialog dialog = builder.create();
         dialog.setTitle("Person INFO");
         dialog.setIcon(R.drawable.personinfo);

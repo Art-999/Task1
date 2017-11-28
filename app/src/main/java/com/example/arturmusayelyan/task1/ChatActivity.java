@@ -51,7 +51,6 @@ public class ChatActivity extends AppCompatActivity {
         messageLayout = (RelativeLayout) findViewById(R.id.messageLayout);
 
 
-
         listView = new ListView(this);
         messageLayout.addView(listView);
         usersList = new ArrayList<>();
@@ -68,6 +67,15 @@ public class ChatActivity extends AppCompatActivity {
         tvYourUserName.setText(MainActivity.getParentUserName());
         yourUserName = tvYourUserName.getText().toString();
         tvSelectedUser = (TextView) findViewById(R.id.selectedUser_TV);
+
+        Bundle extras = getIntent().getExtras();
+        String value = null;
+        if (extras != null) {
+            value = extras.getString("keyForChatWithSelectedUser");
+        }
+        selectedUserName = value;
+        tvSelectedUser.setText(selectedUserName);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -93,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.showAllUsersList_Btn:
-                selectedUserName=null;
+                selectedUserName = null;
                 recyclerView.setVisibility(View.GONE);
                 if (booleanForUserList) {
                     listView.setVisibility(View.VISIBLE);
@@ -137,42 +145,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-//    public void user1SendMessage() {
-//        messageText = et_Message.getText().toString();
-//        if (messageText.length() != 0 && selectedUserName != null) {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            Message message = new Message(messageText, yourUserName, selectedUserName);
-//            DataBase.addMessageToHistory(message);
-//
-//            //adapter.addMessageData(message);
-//            adapter.setMessageData(DataBase.messageHistoryList);
-//            // adapter.notifyItemInserted(adapter.getItemCount()+1);
-//            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-//
-//            et_Message.setText("");
-//        } else if (messageText.length() != 0 && selectedUserName == null) {
-//            Toast.makeText(this, "Choose user for chat ", Toast.LENGTH_LONG).show();
-//        }
-//    }
-//
-//    public void user2SendMessage() {
-//        messageText = et_Message.getText().toString();
-//        if (messageText.length() != 0 && selectedUserName != null) {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            Message message = new Message(messageText, selectedUserName, yourUserName);
-//            DataBase.addMessageToHistory(message);
-//
-//            //adapter.addMessageData(message);
-//            adapter.setMessageData(DataBase.messageHistoryList);
-//            // adapter.notifyItemInserted(adapter.getItemCount()+1);
-//            //adapter.notifyItemInserted(adapter.getItemCount()-1);
-//            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-//
-//            et_Message.setText("");
-//        } else if (messageText.length() != 0 && selectedUserName == null) {
-//            Toast.makeText(this, "Choose user for chat ", Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     public void addMessageToRecycler(String msg, boolean fromLeftUser) {
         if (selectedUserName != null) {
@@ -185,12 +157,12 @@ public class ChatActivity extends AppCompatActivity {
                     adapter.addMessage(new Message(msg, false));
                     DataBase.addMessageToHistory(new Message(msg, selectedUserName, yourUserName));
                 }
-                if (adapter.getItemCount() > 5) {
+                if (adapter.getItemCount() > 3) {
                     recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 }
                 et_Message.setText("");
             }
-        } else  {
+        } else {
             Toast.makeText(this, "Choose user for chat", Toast.LENGTH_SHORT).show();
         }
     }
@@ -214,26 +186,19 @@ public class ChatActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri selectedImageUri = data.getData();
-                fileManagerString=selectedImageUri.getPath();
-                selectedImagePath=getPath(selectedImageUri);
+//                fileManagerString=selectedImageUri.getPath();
+//                selectedImagePath=getPath(selectedImageUri);
                 if (selectedImageUri != null) {
-                    // image.setImageURI(selectedImageUri);
-                    new Message("",true,selectedImageUri);
+                    Log.d("Art", selectedImageUri + "");
+
+                    adapter.addMessage(new Message("", true, selectedImageUri));
+                    DataBase.addMessageToHistory(new Message("", yourUserName, selectedUserName, selectedImageUri));
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
-    public String getPath(Uri uri){
-        String[] projection={MediaStore.Images.Media.DATA};
-        Cursor cursor=managedQuery(uri,projection,null,null,null);
-        if(cursor!=null){
-            int column_index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        else return null;
-    }
+
 
 }
