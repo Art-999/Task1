@@ -48,6 +48,7 @@
         android:id="@+id/register_password_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:layout_alignStart="@+id/register_username_et"
         android:layout_below="@+id/register_username_et"
         android:ems="12"

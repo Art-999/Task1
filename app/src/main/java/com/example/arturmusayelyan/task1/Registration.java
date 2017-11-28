@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,9 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private EditText et_lastName;
     private Button btn_register;
 
+    private boolean chekRegisterMain = false;
+    private String chekAddUsers ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,17 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         et_lastName = findViewById(R.id.register_surname_et);
         btn_register = findViewById(R.id.register_btn2);
         btn_register.setOnClickListener(this);
+
+//        Bundle bundle = new Bundle();
+//        chekRegisterMain = bundle.getBoolean("register");
+
+        Bundle extras = getIntent().getExtras();
+        String value=null;
+        if (extras != null) {
+            value = extras.getString("addUsers");
+        }
+        chekAddUsers=value;
+        Log.d("Art", chekAddUsers + "");
     }
 
 
@@ -43,6 +58,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 setIntentToSignIn();
+            }
+        });
+        builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               dialog.cancel();
             }
         });
 
@@ -74,13 +95,18 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         } else if (checkUserName()) {
             Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
         } else {
-
             Person person = new Person();
             person.setUserName(et_userName.getText().toString());
             person.setFirstName(et_firstName.getText().toString());
             person.setLastName(et_lastName.getText().toString());
             person.setPassword(et_password.getText().toString());
+            if (chekAddUsers!=null) {
+                person.setParentUserName(MainActivity.getParentUserName());
+                Log.d("Art", true + "");
+            }
             DataBase.addPerson(person);
+
+            Log.d("Art", person.getParentUserName() + " " + person.getUserName());
 
             setSuccessSignInDialog();
 
@@ -95,7 +121,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.register_btn2){
+        if (v.getId() == R.id.register_btn2) {
             personRegistration();
         }
     }

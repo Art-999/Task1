@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_register;
     private EditText et_userName;
     private EditText et_password;
-    private static String parentUserName;
+    private static String parentUserName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,15 @@ public class MainActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.register_btn);
         et_userName = findViewById(R.id.username_et);
         et_password = findViewById(R.id.password_et);
+
+//        Bundle bundle = new Bundle();
+//        bundle.putBoolean("register", false);
     }
 
     public static String getParentUserName() {
         return parentUserName;
     }
+
 
     public void onClick(View view) {
         switch (view.getId()) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.register_btn:
                 setIntentForGoingRegisterActivity();
+                et_userName.setText("");
+                et_password.setText("");
                 break;
         }
     }
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage("username or password has been incorrect");
         builder.setTitle(" ");
         builder.setIcon(R.drawable.error);
-        builder.setPositiveButton("Log In", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Log In again", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -96,18 +102,19 @@ public class MainActivity extends AppCompatActivity {
         if (DataBase.personsList != null) {
             for (int i = 0; i < DataBase.personsList.size(); i++) {
                 if (DataBase.personsList.get(i).getUserName().equals(et_userName.getText().toString()) && DataBase.personsList.get(i).getPassword().equals(et_password.getText().toString())) {
-                    Toast.makeText(this, "You pass this LogIn step successfully", Toast.LENGTH_LONG).show();
-                    parentUserName = DataBase.personsList.get(i).getParentUserName();
+                    Toast.makeText(this, "You pass LogIn step successfully", Toast.LENGTH_LONG).show();
+                    parentUserName = et_userName.getText().toString();
+                    Intent intent = new Intent(this, RootActivity.class);
+                    // intent.putExtra("register",true);
+                    startActivity(intent);
                     et_userName.setText("");
                     et_password.setText("");
-                    Intent intent=new Intent(this,RootActivity.class);
-                    startActivity(intent);
-                    break;
+                    return;
                 } else {
                     setFalseLogInDialog();
                 }
             }
-        } else {
+        } else if (DataBase.personsList == null) {
             passRegistrationDialog();
         }
     }
