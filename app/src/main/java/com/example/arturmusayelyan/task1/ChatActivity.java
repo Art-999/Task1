@@ -218,7 +218,7 @@ public class ChatActivity extends AppCompatActivity {
                 selectedImagePath=getPath(selectedImageUri);
                 if (selectedImageUri != null) {
                     // image.setImageURI(selectedImageUri);
-                    new Message("",true,selectedImagePath);
+                    new Message("",true,selectedImageUri);
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }

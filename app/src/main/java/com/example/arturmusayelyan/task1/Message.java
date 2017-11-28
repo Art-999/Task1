@@ -44,6 +44,10 @@ public class Message {
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
     }
+    public Message(String messageText, boolean fromLeftUser) {
+        this.messageText = messageText;
+        this.fromLeftUser = fromLeftUser;
+    }
 
 
     public String getMessageText() {
