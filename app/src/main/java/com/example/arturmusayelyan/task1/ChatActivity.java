@@ -1,9 +1,11 @@
 package com.example.arturmusayelyan.task1;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,8 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> messagesList;
 
 
-    String selectedImagePath;
-    String fileManagerString;
+    private ChatWithUsersFragment chatWithUsersFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,8 @@ public class ChatActivity extends AppCompatActivity {
         listView = new ListView(this);
         messageLayout.addView(listView);
         usersList = new ArrayList<>();
-        adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
-        listView.setAdapter(adapterForUserslist);
+       //1 adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
+       //1 listView.setAdapter(adapterForUserslist);
         et_Message = (EditText) findViewById(R.id.message_ET);
 //        SignInActivity.ParentUsername = "Art88";
 //        DataBase.addPerson(new Person("Art88", "Artur", "Musayelyan", "89494"));
@@ -76,19 +77,20 @@ public class ChatActivity extends AppCompatActivity {
         selectedUserName = value;
         tvSelectedUser.setText(selectedUserName);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                selectedUserName = listView.getItemAtPosition(position).toString();
-                tvSelectedUser.setText(selectedUserName);
-                listView.setVisibility(View.GONE);
-                usersList.clear();
-                adapterForUserslist.notifyDataSetChanged();
-                booleanForUserList = true;
-                MyAdapter.messageData.clear();
-                showMessageHistory(yourUserName, selectedUserName);
-            }
-        });
+        //1
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                selectedUserName = listView.getItemAtPosition(position).toString();
+//                tvSelectedUser.setText(selectedUserName);
+//                listView.setVisibility(View.GONE);
+//                usersList.clear();
+//                adapterForUserslist.notifyDataSetChanged();
+//                booleanForUserList = true;
+//                MyAdapter.messageData.clear();
+//                showMessageHistory(yourUserName, selectedUserName);
+//            }
+//        });
 
         messagesList = new ArrayList<>();
         adapter = new MyAdapter(this);
@@ -103,26 +105,27 @@ public class ChatActivity extends AppCompatActivity {
             case R.id.showAllUsersList_Btn:
                 selectedUserName = null;
                 recyclerView.setVisibility(View.GONE);
-                if (booleanForUserList) {
-                    listView.setVisibility(View.VISIBLE);
-                    showAllUsersList();
-                    booleanForUserList = false;
-                } else {
-                    usersList.clear();
-                    adapterForUserslist.notifyDataSetChanged();
-                    booleanForUserList = true;
-                }
+                //1
+//                if (booleanForUserList) {
+//                    listView.setVisibility(View.VISIBLE);
+//                    showAllUsersList();
+//                    booleanForUserList = false;
+//                } else {
+//                    usersList.clear();
+//                    adapterForUserslist.notifyDataSetChanged();
+//                    booleanForUserList = true;
+//                }
+                android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                chatWithUsersFragment=ChatWithUsersFragment.newInstance(usersList);
+
                 Log.d("Art_Log", "worked");
                 break;
             case R.id.user1_btn:
-//                user1SendMessage();
                 addMessageToRecycler(et_Message.getText().toString(), true);
-                //sendMessage(yourUserName,selectedUserName);
                 break;
             case R.id.user2_btn:
-//                user2SendMessage();
                 addMessageToRecycler(et_Message.getText().toString(), false);
-                // sendMessage(selectedUserName,yourUserName);
                 break;
             case R.id.gallery_btn:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

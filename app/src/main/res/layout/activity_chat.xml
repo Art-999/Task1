@@ -62,11 +62,18 @@
         </LinearLayout>
 
 
-
         <RelativeLayout
             android:id="@+id/messageLayout"
             android:layout_width="match_parent"
             android:layout_height="420dp">
+
+            <FrameLayout
+                android:id="@+id/frame_layout_for_chat_with_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+            </FrameLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
@@ -130,14 +137,15 @@
                 android:layout_marginStart="34dp"
                 android:background="@drawable/gallery"
                 android:onClick="onClick" />
+
             <Button
                 android:id="@+id/map_btn"
-                android:layout_marginLeft="10dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@id/gallery_btn"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:background="@drawable/placeholder"/>
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/gallery_btn"
+                android:background="@drawable/placeholder" />
 
         </RelativeLayout>
 
