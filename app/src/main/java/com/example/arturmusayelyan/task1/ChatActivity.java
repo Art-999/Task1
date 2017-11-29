@@ -1,18 +1,15 @@
 package com.example.arturmusayelyan.task1;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,12 +19,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatWithUsersFragment.OnChatFragmentClickListener {
     private ArrayAdapter<String> adapterForUserslist;
     private RecyclerView recyclerView;
     private ListView listView;
     private RelativeLayout messageLayout;
-    private boolean booleanForUserList = true;
+  //1  private boolean booleanForUserList = true;
 
     private TextView tvSelectedUser;
     static String selectedUserName;
@@ -35,7 +32,6 @@ public class ChatActivity extends AppCompatActivity {
     static String yourUserName;
 
     private EditText et_Message;
-    private String messageText;
     private MyAdapter adapter;
 
     ArrayList<String> usersList;
@@ -43,6 +39,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private ChatWithUsersFragment chatWithUsersFragment;
+    private boolean checkChatWithUsersListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +52,8 @@ public class ChatActivity extends AppCompatActivity {
         listView = new ListView(this);
         messageLayout.addView(listView);
         usersList = new ArrayList<>();
-       //1 adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
-       //1 listView.setAdapter(adapterForUserslist);
+        //1 adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
+        //1 listView.setAdapter(adapterForUserslist);
         et_Message = (EditText) findViewById(R.id.message_ET);
 //        SignInActivity.ParentUsername = "Art88";
 //        DataBase.addPerson(new Person("Art88", "Artur", "Musayelyan", "89494"));
@@ -76,6 +73,8 @@ public class ChatActivity extends AppCompatActivity {
         }
         selectedUserName = value;
         tvSelectedUser.setText(selectedUserName);
+
+        checkChatWithUsersListButton=false;
 
         //1
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,9 +102,10 @@ public class ChatActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.showAllUsersList_Btn:
-                selectedUserName = null;
-                recyclerView.setVisibility(View.GONE);
                 //1
+//                selectedUserName = null;
+//                recyclerView.setVisibility(View.GONE);
+//
 //                if (booleanForUserList) {
 //                    listView.setVisibility(View.VISIBLE);
 //                    showAllUsersList();
@@ -115,9 +115,24 @@ public class ChatActivity extends AppCompatActivity {
 //                    adapterForUserslist.notifyDataSetChanged();
 //                    booleanForUserList = true;
 //                }
-                android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                chatWithUsersFragment=ChatWithUsersFragment.newInstance(usersList);
+
+                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if(!checkChatWithUsersListButton){
+                    recyclerView.setVisibility(View.GONE);
+                    chatWithUsersFragment = ChatWithUsersFragment.newInstance(showUsersListForChat());
+                    chatWithUsersFragment.setOnChatFragmentClickListener(this);
+                    fragmentTransaction.add(R.id.frame_layout_for_chat_with_users, chatWithUsersFragment);
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    checkChatWithUsersListButton=true;
+                }
+                else if(checkChatWithUsersListButton){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    fragmentTransaction.remove(chatWithUsersFragment);
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    checkChatWithUsersListButton=false;
+                }
+                fragmentTransaction.commit();
 
                 Log.d("Art_Log", "worked");
                 break;
@@ -135,6 +150,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    //harmara sovorakan aranc fragmenti orinaki hamar
     public void showAllUsersList() {
         if (DataBase.personsList != null) {
             //recyclerView.setVisibility(View.VISIBLE);
@@ -146,6 +162,34 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    public void showMessageHistory(String sendFromUser, String sendToUser) {
+        recyclerView.setVisibility(View.VISIBLE);
+        if (DataBase.messageHistoryList != null) {
+            for (int i = 0; i < DataBase.messageHistoryList.size(); i++) {
+                if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri()==null) {
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true));
+                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri()==null) {
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), false));
+                }
+                else if(DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri()!=null){
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true,DataBase.messageHistoryList.get(i).getImageUri()));
+                }
+            }
+        }
+    }
+
+    public ArrayList<String> showUsersListForChat() {
+        ArrayList<String> dataList = new ArrayList<>();
+        if (DataBase.personsList != null) {
+            for (int i = 0; i < DataBase.personsList.size(); i++) {
+                if (!(DataBase.personsList.get(i).getUserName().equals(MainActivity.getParentUserName()))) {
+                    dataList.add(DataBase.personsList.get(i).getUserName());
+                }
+            }
+            return dataList;
+        }
+        return dataList;
     }
 
 
@@ -170,18 +214,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    public void showMessageHistory(String sendFromUser, String sendToUser) {
-        recyclerView.setVisibility(View.VISIBLE);
-        if (DataBase.messageHistoryList != null) {
-            for (int i = 0; i < DataBase.messageHistoryList.size(); i++) {
-                if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser)) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true));
-                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendFromUser)) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), false));
-                }
-            }
-        }
-    }
+
 
 
     @Override
@@ -203,5 +236,25 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onFragmentClick(String userName) {
+        selectedUserName=userName;
+        tvSelectedUser.setText(selectedUserName);
 
+       // recyclerView.setVisibility(View.VISIBLE);
+        MyAdapter.messageData.clear();
+        showMessageHistory(yourUserName,selectedUserName);
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(chatWithUsersFragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        fragmentTransaction.commit();
+
+        checkChatWithUsersListButton=false;
+    }
+
+//    @Override
+//    public void onFragmentClick(Example example) {
+//        Toast.makeText(this,  example.getName()+ " " + example.getPosition(), Toast.LENGTH_SHORT).show();
+//    }
 }
