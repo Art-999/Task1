@@ -1,7 +1,5 @@
 package com.example.arturmusayelyan.task1;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,20 +58,21 @@ public class ChildUsersListFragment extends Fragment {
                 break;
             }
         }
-        builder.setPositiveButton("Chat", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("keyForChatWithSelectedUser",position);
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        //hetoyi hamar
+//        builder.setPositiveButton("Chat", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                intent.putExtra("keyForChatWithSelectedUser",position);
+//                startActivity(intent);
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
         AlertDialog dialog = builder.create();
         dialog.setTitle("Person INFO");
         dialog.setIcon(R.drawable.personinfo);

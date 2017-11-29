@@ -118,6 +118,10 @@ public class RootActivity extends AppCompatActivity {
                 }
                 fragmentTransaction2.commit();
                 break;
+            case R.id.chat_btn:
+                Intent intent2 = new Intent(this, ChatActivity.class);
+                startActivity(intent2);
+                break;
         }
     }
 }

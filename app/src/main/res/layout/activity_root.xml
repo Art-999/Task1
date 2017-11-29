@@ -10,10 +10,11 @@
         android:id="@+id/myUsers_btn"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_below="@id/addUsers_btn"
+
+        android:layout_marginTop="10dp"
         android:background="@drawable/buttons_root"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -37,13 +38,26 @@
         android:id="@+id/addUsers_btn"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
         android:background="@drawable/buttons_root"
         android:onClick="onClick"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="add Users" />
+    <Button
+        android:id="@+id/chat_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/allUsers_btn"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Chat"
+        android:onClick="onClick"
+        android:background="@drawable/buttons_root"/>
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -51,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="65dp">
+        android:layout_marginTop="100dp">
 
     </FrameLayout>
 
@@ -61,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="65dp">
+        android:layout_marginTop="100dp">
 
     </FrameLayout>
 

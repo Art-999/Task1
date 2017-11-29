@@ -46,7 +46,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         if (currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
             holder.tvYourMessage.setText(currentMessage.getMessageText());
             holder.tvOtherMessage.setVisibility(View.INVISIBLE);
-        } else if (!currentMessage.isFromLeftUser()) {
+        } else if (!currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
             holder.tvOtherMessage.setText(currentMessage.getMessageText());
             holder.tvYourMessage.setVisibility(View.INVISIBLE);
         } else if (currentMessage.getImageUri() != null) {
