@@ -85,11 +85,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     public void personRegistration() {
+
         String firstName = et_firstName.getText().toString();
         String lastName = et_lastName.getText().toString();
         String userName = et_userName.getText().toString();
         String password = et_password.getText().toString();
-        String parentUserName=null;
+        String parentUserName = null;
         if (userName.equals("") || firstName.equals("") || lastName.equals("") || password.equals("")) {
             Toast.makeText(this, "Please fill all fields ", Toast.LENGTH_LONG).show();
         } else if (userName.length() > 10) {
@@ -97,8 +98,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         } else if (password.length() < 4) {
             Toast.makeText(this, "password field must be contain more than 4 Characters", Toast.LENGTH_LONG).show();
 
-        } else if (checkUserName()) {
-            Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
         } else {
 //            Person person = new Person();
 //            person.setUserName(et_userName.getText().toString());
@@ -113,9 +112,14 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 //
 //            Log.d("Art", person.getParentUserName() + " " + person.getUserName());
             DatabaseOperations databaseOperations = new DatabaseOperations(this);
-            databaseOperations.putPersonToDB(databaseOperations,firstName,lastName,userName,password,parentUserName);
+            if (databaseOperations.checkUserName(databaseOperations, userName)) {
+                Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
 
-            setSuccessSignInDialog();
+            } else if(!(databaseOperations.checkUserName(databaseOperations,userName))){
+                databaseOperations.putPersonToDB(databaseOperations, firstName, lastName, userName, password, parentUserName);
+
+                setSuccessSignInDialog();
+            }
 
             et_userName.setText("");
             et_firstName.setText("");

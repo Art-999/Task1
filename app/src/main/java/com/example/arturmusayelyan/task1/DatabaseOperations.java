@@ -2,6 +2,7 @@ package com.example.arturmusayelyan.task1;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -42,6 +43,19 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         contentValues.put(PersonDbBaseInfo.PersonEntry.PASSWORD, password);
         contentValues.put(PersonDbBaseInfo.PersonEntry.PARENTUSERNAME, parentUserName);
         sqLiteDatabase.insert(PersonDbBaseInfo.PersonEntry.TABLE_NAME, null, contentValues);
+        sqLiteDatabase.close();
         Log.d("Database operations", "One Row Inserted.....");
+    }
+
+    public boolean checkUserName(DatabaseOperations databaseOperations, String userName) {
+        SQLiteDatabase sqLiteDatabase = databaseOperations.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("Select * from "+PersonDbBaseInfo.PersonEntry.TABLE_NAME+" where " + PersonDbBaseInfo.PersonEntry.USERNAME+" = "+userName,null);
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
     }
 }
