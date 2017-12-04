@@ -24,7 +24,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     private RecyclerView recyclerView;
     private ListView listView;
     private RelativeLayout messageLayout;
-  //1  private boolean booleanForUserList = true;
+    //1  private boolean booleanForUserList = true;
 
     private TextView tvSelectedUser;
     static String selectedUserName;
@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         selectedUserName = value;
         tvSelectedUser.setText(selectedUserName);
 
-        checkChatWithUsersListButton=false;
+        checkChatWithUsersListButton = false;
 
         //1
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,19 +118,18 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                if(!checkChatWithUsersListButton){
+                if (!checkChatWithUsersListButton) {
                     recyclerView.setVisibility(View.GONE);
                     chatWithUsersFragment = ChatWithUsersFragment.newInstance(showUsersListForChat());
                     chatWithUsersFragment.setOnChatFragmentClickListener(this);
                     fragmentTransaction.add(R.id.frame_layout_for_chat_with_users, chatWithUsersFragment);
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    checkChatWithUsersListButton=true;
-                }
-                else if(checkChatWithUsersListButton){
+                    checkChatWithUsersListButton = true;
+                } else if (checkChatWithUsersListButton) {
                     recyclerView.setVisibility(View.VISIBLE);
                     fragmentTransaction.remove(chatWithUsersFragment);
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                    checkChatWithUsersListButton=false;
+                    checkChatWithUsersListButton = false;
                 }
                 fragmentTransaction.commit();
 
@@ -163,17 +162,17 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
             }
         }
     }
+
     public void showMessageHistory(String sendFromUser, String sendToUser) {
         recyclerView.setVisibility(View.VISIBLE);
         if (DataBase.messageHistoryList != null) {
             for (int i = 0; i < DataBase.messageHistoryList.size(); i++) {
-                if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri()==null) {
+                if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
                     adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true));
-                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri()==null) {
+                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
                     adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), false));
-                }
-                else if(DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri()!=null){
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true,DataBase.messageHistoryList.get(i).getImageUri()));
+                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() != null) {
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true, DataBase.messageHistoryList.get(i).getImageUri()));
                 }
             }
         }
@@ -215,8 +214,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -238,19 +235,19 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
     @Override
     public void onFragmentClick(String userName) {
-        selectedUserName=userName;
+        selectedUserName = userName;
         tvSelectedUser.setText(selectedUserName);
 
-       // recyclerView.setVisibility(View.VISIBLE);
+        // recyclerView.setVisibility(View.VISIBLE);
         MyAdapter.messageData.clear();
-        showMessageHistory(yourUserName,selectedUserName);
+        showMessageHistory(yourUserName, selectedUserName);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(chatWithUsersFragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         fragmentTransaction.commit();
 
-        checkChatWithUsersListButton=false;
+        checkChatWithUsersListButton = false;
     }
 
 //    @Override

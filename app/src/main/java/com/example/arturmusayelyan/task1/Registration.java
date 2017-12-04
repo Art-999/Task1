@@ -19,7 +19,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     private Button btn_register;
 
     private boolean chekRegisterMain = false;
-    private String chekAddUsers ;
+    private String chekAddUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 //        chekRegisterMain = bundle.getBoolean("register");
 
         Bundle extras = getIntent().getExtras();
-        String value=null;
+        String value = null;
         if (extras != null) {
             value = extras.getString("addUsers");
         }
-        chekAddUsers=value;
+        chekAddUsers = value;
         Log.d("Art", chekAddUsers + "");
     }
 
@@ -63,7 +63,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               dialog.cancel();
+                dialog.cancel();
             }
         });
 
@@ -85,28 +85,35 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     public void personRegistration() {
-        if (et_userName.getText().toString().equals("") || et_firstName.getText().toString().equals("") || et_lastName.getText().toString().equals("")
-                || et_password.getText().toString().equals("")) {
+        String firstName = et_firstName.getText().toString();
+        String lastName = et_lastName.getText().toString();
+        String userName = et_userName.getText().toString();
+        String password = et_password.getText().toString();
+        String parentUserName=null;
+        if (userName.equals("") || firstName.equals("") || lastName.equals("") || password.equals("")) {
             Toast.makeText(this, "Please fill all fields ", Toast.LENGTH_LONG).show();
-        } else if (et_userName.getText().toString().length() > 10) {
+        } else if (userName.length() > 10) {
             Toast.makeText(this, "username can contain max:10 characters", Toast.LENGTH_LONG).show();
-        } else if (et_password.getText().toString().length() < 4) {
+        } else if (password.length() < 4) {
             Toast.makeText(this, "password field must be contain more than 4 Characters", Toast.LENGTH_LONG).show();
+
         } else if (checkUserName()) {
             Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
         } else {
-            Person person = new Person();
-            person.setUserName(et_userName.getText().toString());
-            person.setFirstName(et_firstName.getText().toString());
-            person.setLastName(et_lastName.getText().toString());
-            person.setPassword(et_password.getText().toString());
-            if (chekAddUsers!=null) {
-                person.setParentUserName(MainActivity.getParentUserName());
-                Log.d("Art", true + "");
-            }
-            DataBase.addPerson(person);
-
-            Log.d("Art", person.getParentUserName() + " " + person.getUserName());
+//            Person person = new Person();
+//            person.setUserName(et_userName.getText().toString());
+//            person.setFirstName(et_firstName.getText().toString());
+//            person.setLastName(et_lastName.getText().toString());
+//            person.setPassword(et_password.getText().toString());
+//            if (chekAddUsers!=null) {
+//                person.setParentUserName(MainActivity.getParentUserName());
+//                Log.d("Art", true + "");
+//            }
+//            DataBase.addPerson(person);
+//
+//            Log.d("Art", person.getParentUserName() + " " + person.getUserName());
+            DatabaseOperations databaseOperations = new DatabaseOperations(this);
+            databaseOperations.putPersonToDB(databaseOperations,firstName,lastName,userName,password,parentUserName);
 
             setSuccessSignInDialog();
 
