@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signin_btn:
-                if (DataBase.personsList != null) {
+                if (DataBase.getInstance().getPersonsList() != null) {
                     if (checkLogIn()) {
                         Toast.makeText(this, "You pass LogIn step successfully...", Toast.LENGTH_LONG).show();
                         parentUserName = et_userName.getText().toString();
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean checkLogIn() {
-        for (int i = 0; i < DataBase.personsList.size(); i++) {
-            if (DataBase.personsList.get(i).getUserName().equals(et_userName.getText().toString()) && DataBase.personsList.get(i).getPassword().equals(et_password.getText().toString())) {
+        for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+            if (DataBase.getInstance().getPersonsList().get(i).getUserName().equals(et_userName.getText().toString()) && DataBase.getInstance().getPersonsList().get(i).getPassword().equals(et_password.getText().toString())) {
                 return true;
             }
         }

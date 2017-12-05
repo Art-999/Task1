@@ -52,9 +52,9 @@ public class RootActivity extends AppCompatActivity {
 
     public ArrayList<String> showAllUsersList() {
         ArrayList<String> allUsersList = new ArrayList<>();
-        if (DataBase.personsList != null) {
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                allUsersList.add(DataBase.personsList.get(i).getUserName());
+        if (DataBase.getInstance().getPersonsList() != null) {
+            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+                allUsersList.add(DataBase.getInstance().getPersonsList().get(i).getUserName());
             }
             return allUsersList;
         }
@@ -63,12 +63,12 @@ public class RootActivity extends AppCompatActivity {
 
     public ArrayList<String> showChildUsersList() {
         ArrayList<String> childUsersList = new ArrayList<>();
-        if (DataBase.personsList != null) {
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                if (DataBase.personsList.get(i).getParentUserName() != null) {
-                    if (DataBase.personsList.get(i).getParentUserName().equals(MainActivity.getParentUserName())) {
-                        Log.d("Art", DataBase.personsList.get(i).getParentUserName());
-                        childUsersList.add(DataBase.personsList.get(i).getUserName());
+        if (DataBase.getInstance().getPersonsList() != null) {
+            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+                if (DataBase.getInstance().getPersonsList().get(i).getParentUserName() != null) {
+                    if (DataBase.getInstance().getPersonsList().get(i).getParentUserName().equals(MainActivity.getParentUserName())) {
+                        Log.d("Art", DataBase.getInstance().getPersonsList().get(i).getParentUserName());
+                        childUsersList.add(DataBase.getInstance().getPersonsList().get(i).getUserName());
                     }
                 }
             }

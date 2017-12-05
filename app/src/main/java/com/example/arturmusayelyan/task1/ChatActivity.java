@@ -152,43 +152,25 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
     //harmara sovorakan aranc fragmenti orinaki hamar
     public void showAllUsersList() {
-        if (DataBase.personsList != null) {
+        if (DataBase.getInstance().getPersonsList() != null) {
             //recyclerView.setVisibility(View.VISIBLE);
             tvSelectedUser.setText("");
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                if (!(DataBase.personsList.get(i).getUserName()).equals(MainActivity.getParentUserName())) {
-                    adapterForUserslist.add(DataBase.personsList.get(i).getUserName());
+            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+                if (!(DataBase.getInstance().getPersonsList().get(i).getUserName()).equals(MainActivity.getParentUserName())) {
+                    adapterForUserslist.add(DataBase.getInstance().getPersonsList().get(i).getUserName());
                     adapterForUserslist.notifyDataSetChanged();
                 }
             }
         }
     }
 
-    public void showMessageHistory(String sendFromUser, String sendToUser) {
-        recyclerView.setVisibility(View.VISIBLE);
-        if (DataBase.getInstance().messageHistoryList != null) {
-            for (int i = 0; i < DataBase.getInstance().messageHistoryList.size(); i++) {
-                if (DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), sendFromUser, sendToUser, null, true));
-                    Log.d("Artur", "1 if worked");
-                } else if (DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), sendToUser, sendFromUser, null, false));
-                    Log.d("Artur", "2 if worked");
-                } else if (DataBase.getInstance().messageHistoryList.get(i).getImageUri() != null) {
-                    adapter.addMessage(new Message("image", sendFromUser, sendToUser, DataBase.messageHistoryList.get(i).getImageUri(), true));
-                    Log.d("Artur", "3 if worked");
-                }
-            }
-        }
-        //DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendToUser) &&
-    }
 
     public ArrayList<String> showUsersListForChat() {
         ArrayList<String> dataList = new ArrayList<>();
-        if (DataBase.personsList != null) {
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                if (!(DataBase.personsList.get(i).getUserName().equals(MainActivity.getParentUserName()))) {
-                    dataList.add(DataBase.personsList.get(i).getUserName());
+        if (DataBase.getInstance().getPersonsList() != null) {
+            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+                if (!(DataBase.getInstance().getPersonsList().get(i).getUserName().equals(MainActivity.getParentUserName()))) {
+                    dataList.add(DataBase.getInstance().getPersonsList().get(i).getUserName());
                 }
             }
             return dataList;
@@ -229,8 +211,8 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 if (selectedImageUri != null) {
                     Log.d("Artur", selectedImageUri + "");
 
-                    adapter.addMessage(new Message("image", yourUserName, selectedUserName, selectedImageUri, true));
-                    DataBase.getInstance().addMessageToHistory(new Message("image", yourUserName, selectedUserName, selectedImageUri, true));
+                    adapter.addMessage(new Message("image", yourUserName, selectedUserName, selectedImageUri.toString(), true));
+                    DataBase.getInstance().addMessageToHistory(new Message("image", yourUserName, selectedUserName, selectedImageUri.toString(), true));
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
@@ -253,6 +235,32 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         fragmentTransaction.commit();
 
         checkChatWithUsersListButton = false;
+    }
+
+    public void showMessageHistory(String sender, String receiver) {
+        recyclerView.setVisibility(View.VISIBLE);
+        if (DataBase.getInstance().getMessageHistoryList() != null) {
+            for (int i = 0; i < DataBase.getInstance().getMessageHistoryList().size(); i++) {
+                if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(sender) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(receiver)) {
+                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
+                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), sender, receiver, null, true));
+                        Log.d("Artur", "1 if worked");
+                    } else {
+                        adapter.addMessage(new Message("image", sender, receiver, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), true));
+                        Log.d("Artur", "2 if worked");
+                    }
+
+                } else if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender)) {
+                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
+                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), receiver, sender, null, false));
+                        Log.d("Artur", "3 if worked");
+                    } else {
+                        adapter.addMessage(new Message("image", receiver, sender, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), false));
+                        Log.d("Artur", "4 if worked");
+                    }
+                }
+            }
+        }
     }
 
 }

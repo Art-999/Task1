@@ -52,9 +52,9 @@ public class ChildUsersListFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true);
 
-        for (int i = 0; i < DataBase.personsList.size(); i++) {
-            if (DataBase.personsList.get(i).getUserName().equals(position)) {
-                builder.setMessage(DataBase.personsList.get(i).getFirstName() + " " + DataBase.personsList.get(i).getLastName());
+        for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+            if (DataBase.getInstance().getPersonsList().get(i).getUserName().equals(position)) {
+                builder.setMessage(DataBase.getInstance().getPersonsList().get(i).getFirstName() + " " + DataBase.getInstance().getPersonsList().get(i).getLastName());
                 break;
             }
         }

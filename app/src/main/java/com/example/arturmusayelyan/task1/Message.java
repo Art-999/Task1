@@ -21,7 +21,7 @@ public class Message {
         this.sendFromMe = sendFromMe;
     }
 
-    private Uri imageUri;
+    private String imageUri;
 
     public Message() {
 
@@ -34,15 +34,15 @@ public class Message {
         this.sendToUser = sendToUser;
     }
 
-    public Message(String messageText, boolean fromLeftUser, String sendFromUser, String sendToUser, Uri imageUri) {
-        this.messageText = messageText;
-        this.fromLeftUser = fromLeftUser;
-        this.sendFromUser = sendFromUser;
-        this.sendToUser = sendToUser;
-        this.imageUri = imageUri;
-    }
+//    public Message(String messageText, boolean fromLeftUser, String sendFromUser, String sendToUser, Uri imageUri) {
+//        this.messageText = messageText;
+//        this.fromLeftUser = fromLeftUser;
+//        this.sendFromUser = sendFromUser;
+//        this.sendToUser = sendToUser;
+//        this.imageUri = imageUri;
+//    }
 
-    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe) {
+    public Message(String messageText, String sendFromUser, String sendToUser, String imageUri, boolean sendFromMe) {
         this.messageText = messageText;
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
@@ -50,11 +50,11 @@ public class Message {
         this.sendFromMe = sendFromMe;
     }
 
-    public Message(String messageText, boolean fromLeftUser, Uri image) {
-        this.messageText = messageText;
-        this.fromLeftUser = fromLeftUser;
-        this.imageUri = image;
-    }
+//    public Message(String messageText, boolean fromLeftUser, Uri image) {
+//        this.messageText = messageText;
+//        this.fromLeftUser = fromLeftUser;
+//        this.imageUri = image;
+//    }
 
     //avelacrac
     public Message(String messageText, String sendFromUser, String sendToUser) {
@@ -101,11 +101,11 @@ public class Message {
         this.sendToUser = sendToUser;
     }
 
-    public Uri getImageUri() {
+    public String getImageUri() {
         return imageUri;
     }
 
-    public void setImageUri(Uri imageUri) {
+    public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
     }
 

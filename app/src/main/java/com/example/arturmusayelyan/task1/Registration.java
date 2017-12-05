@@ -75,9 +75,9 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     public boolean checkUserName() {
-        if (DataBase.personsList != null) {
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                if (et_userName.getText().toString().equals(DataBase.personsList.get(i).getUserName())) {
+        if (DataBase.getInstance().getPersonsList() != null) {
+            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
+                if (et_userName.getText().toString().equals(DataBase.getInstance().getPersonsList().get(i).getUserName())) {
                     return true;
                 }
             }
@@ -111,7 +111,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 person.setParentUserName(MainActivity.getParentUserName());
                 Log.d("Art", true + "");
             }
-            DataBase.addPerson(person);
+            DataBase.getInstance().addPerson(person);
             Log.d("Artur",person.toString());
 
 

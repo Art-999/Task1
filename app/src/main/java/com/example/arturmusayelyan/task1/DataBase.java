@@ -1,5 +1,7 @@
 package com.example.arturmusayelyan.task1;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 /**
@@ -8,11 +10,19 @@ import java.util.ArrayList;
 
 public class DataBase {
     private static DataBase instance;
-    static ArrayList<Person> personsList;
-    static ArrayList<Message> messageHistoryList;
+    private ArrayList<Person> personsList;
+    private ArrayList<Message> messageHistoryList;
+
+    public ArrayList<Message> getMessageHistoryList() {
+        return messageHistoryList;
+    }
+
+    public ArrayList<Person> getPersonsList() {
+        return personsList;
+    }
 
     //narek
-   // private HashMap<String, HashMap<String, ArrayList<Message>>> messageHashMap;
+    // private HashMap<String, HashMap<String, ArrayList<Message>>> messageHashMap;
 
 
     private DataBase() {
@@ -26,14 +36,16 @@ public class DataBase {
         return instance;
     }
 
-    public static void addPerson(Person person) {
+    //karanq arden static keyworde hanenq vor darna singleton
+    public void addPerson(Person person) {
         if (personsList == null) {
             personsList = new ArrayList<>();
         }
         personsList.add(person);
     }
 
-    public static void addMessageToHistory(Message message) {
+    //karanq arden static keyworde hanenq vor darna singleton
+    public void addMessageToHistory(Message message) {
         if (messageHistoryList == null) {
             messageHistoryList = new ArrayList<>();
         }
