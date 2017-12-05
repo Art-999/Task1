@@ -54,13 +54,14 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         usersList = new ArrayList<>();
         //1 adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
         //1 listView.setAdapter(adapterForUserslist);
-        et_Message = (EditText) findViewById(R.id.message_ET);
+
 //        SignInActivity.ParentUsername = "Art88";
 //        DataBase.addPerson(new Person("Art88", "Artur", "Musayelyan", "89494"));
 //        DataBase.addPerson(new Person("Kar89", "Artur", "Musayelyan", "89494"));
 //        DataBase.addPerson(new Person("Manvel99", "Artur", "Musayelyan", "89494"));
 //        DataBase.addPerson(new Person("Rubo89", "Artur", "Musayelyan", "89494"));
 
+        et_Message = (EditText) findViewById(R.id.message_ET);
         tvYourUserName = (TextView) findViewById(R.id.yourUserName_TV);
         tvYourUserName.setText(MainActivity.getParentUserName());
         yourUserName = tvYourUserName.getText().toString();
@@ -133,14 +134,14 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 }
                 fragmentTransaction.commit();
 
-                Log.d("Art_Log", "worked");
+                Log.d("Artur", "fragmentTransaction worked");
                 break;
             case R.id.user1_btn:
-                addMessageToRecycler(et_Message.getText().toString(), true);
+                addMessageToRecycler(et_Message.getText().toString());
                 break;
-            case R.id.user2_btn:
-                addMessageToRecycler(et_Message.getText().toString(), false);
-                break;
+//            case R.id.user2_btn:
+//                addMessageToRecycler(et_Message.getText().toString(), false);
+//                break;
             case R.id.gallery_btn:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
@@ -165,17 +166,21 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
     public void showMessageHistory(String sendFromUser, String sendToUser) {
         recyclerView.setVisibility(View.VISIBLE);
-        if (DataBase.messageHistoryList != null) {
-            for (int i = 0; i < DataBase.messageHistoryList.size(); i++) {
-                if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true));
-                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), false));
-                } else if (DataBase.messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() != null) {
-                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), true, DataBase.messageHistoryList.get(i).getImageUri()));
+        if (DataBase.getInstance().messageHistoryList != null) {
+            for (int i = 0; i < DataBase.getInstance().messageHistoryList.size(); i++) {
+                if (DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendToUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), sendFromUser, sendToUser, null, true));
+                    Log.d("Artur", "1 if worked");
+                } else if (DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendToUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendFromUser) && DataBase.messageHistoryList.get(i).getImageUri() == null) {
+                    adapter.addMessage(new Message(DataBase.messageHistoryList.get(i).getMessageText(), sendToUser, sendFromUser, null, false));
+                    Log.d("Artur", "2 if worked");
+                } else if (DataBase.getInstance().messageHistoryList.get(i).getImageUri() != null) {
+                    adapter.addMessage(new Message("image", sendFromUser, sendToUser, DataBase.messageHistoryList.get(i).getImageUri(), true));
+                    Log.d("Artur", "3 if worked");
                 }
             }
         }
+        //DataBase.getInstance().messageHistoryList.get(i).getSendFromUser().equals(sendFromUser) && DataBase.getInstance().messageHistoryList.get(i).getSendToUser().equals(sendToUser) &&
     }
 
     public ArrayList<String> showUsersListForChat() {
@@ -192,17 +197,19 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     }
 
 
-    public void addMessageToRecycler(String msg, boolean fromLeftUser) {
+    public void addMessageToRecycler(String msg) {
         if (selectedUserName != null) {
             if (!msg.equals("") && !selectedUserName.equals("")) {
                 recyclerView.setVisibility(View.VISIBLE);
-                if (fromLeftUser) {
-                    adapter.addMessage(new Message(msg, true));
-                    DataBase.addMessageToHistory(new Message(msg, yourUserName, selectedUserName));
-                } else {
-                    adapter.addMessage(new Message(msg, false));
-                    DataBase.addMessageToHistory(new Message(msg, selectedUserName, yourUserName));
-                }
+//                if (fromLeftUser) {
+//                    adapter.addMessage(new Message(msg, true));
+//                    DataBase.addMessageToHistory(new Message(msg, yourUserName, selectedUserName));
+//                } else {
+//                    adapter.addMessage(new Message(msg, false));
+//                    DataBase.addMessageToHistory(new Message(msg, selectedUserName, yourUserName));
+//                }
+                adapter.addMessage(new Message(msg, yourUserName, selectedUserName, null, true));
+                DataBase.getInstance().addMessageToHistory(new Message(msg, yourUserName, selectedUserName, null, true));
                 if (adapter.getItemCount() > 3) {
                     recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 }
@@ -219,13 +226,11 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri selectedImageUri = data.getData();
-//                fileManagerString=selectedImageUri.getPath();
-//                selectedImagePath=getPath(selectedImageUri);
                 if (selectedImageUri != null) {
-                    Log.d("Art", selectedImageUri + "");
+                    Log.d("Artur", selectedImageUri + "");
 
-                    adapter.addMessage(new Message("", true, selectedImageUri));
-                    DataBase.addMessageToHistory(new Message("", yourUserName, selectedUserName, selectedImageUri));
+                    adapter.addMessage(new Message("image", yourUserName, selectedUserName, selectedImageUri, true));
+                    DataBase.getInstance().addMessageToHistory(new Message("image", yourUserName, selectedUserName, selectedImageUri, true));
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
@@ -250,8 +255,4 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         checkChatWithUsersListButton = false;
     }
 
-//    @Override
-//    public void onFragmentClick(Example example) {
-//        Toast.makeText(this,  example.getName()+ " " + example.getPosition(), Toast.LENGTH_SHORT).show();
-//    }
 }

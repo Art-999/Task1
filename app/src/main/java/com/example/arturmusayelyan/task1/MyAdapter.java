@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private static final int ME = 0;
+    private static final int YOU = 1;
     private LayoutInflater inflater;
     private Context context;
     static ArrayList<Message> messageData;
@@ -29,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void addMessage(Message msg) {
         messageData.add(msg);
         notifyDataSetChanged();
-        Log.d("Art_Log", "worked");
+        Log.d("Artur", "addMessage method worked");
     }
 
 
@@ -43,20 +45,41 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         com.example.arturmusayelyan.task1.Message currentMessage = messageData.get(position);
 
-        if (currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
+        if (holder.getItemViewType() == ME){
+
+        }else if (holder.getItemViewType() == YOU){
+
+        }
+
+        if (currentMessage.getImageUri() == null && currentMessage.isSendFromMe()) {
+            holder.imageView.setVisibility(View.GONE);
             holder.tvYourMessage.setText(currentMessage.getMessageText());
             holder.tvOtherMessage.setVisibility(View.INVISIBLE);
-        } else if (!currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
+        } else if (currentMessage.getImageUri() == null && !(currentMessage.isSendFromMe())) {
+            holder.imageView.setVisibility(View.GONE);
             holder.tvOtherMessage.setText(currentMessage.getMessageText());
             holder.tvYourMessage.setVisibility(View.INVISIBLE);
         } else if (currentMessage.getImageUri() != null) {
-            Log.d("Art", "ImageUri worked");
             holder.tvYourMessage.setVisibility(View.GONE);
             holder.tvOtherMessage.setVisibility(View.GONE);
-
             holder.imageView.setVisibility(View.VISIBLE);
             holder.imageView.setImageURI(currentMessage.getImageUri());
         }
+
+//        if (currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
+//            holder.tvYourMessage.setText(currentMessage.getMessageText());
+//            holder.tvOtherMessage.setVisibility(View.INVISIBLE);
+//        } else if (!currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
+//            holder.tvOtherMessage.setText(currentMessage.getMessageText());
+//            holder.tvYourMessage.setVisibility(View.INVISIBLE);
+//        } else if (currentMessage.getImageUri() != null) {
+//            Log.d("Art", "ImageUri worked");
+//            holder.tvYourMessage.setVisibility(View.GONE);
+//            holder.tvOtherMessage.setVisibility(View.GONE);
+//
+//            holder.imageView.setVisibility(View.VISIBLE);
+//            holder.imageView.setImageURI(currentMessage.getImageUri());
+//        }
     }
 
 
@@ -67,7 +90,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        return messageData.get(position).isSendFromMe() ? ME : YOU;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -39,7 +39,20 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signin_btn:
-                checkLogIn();
+                if (DataBase.personsList != null) {
+                    if (checkLogIn()) {
+                        Toast.makeText(this, "You pass LogIn step successfully...", Toast.LENGTH_LONG).show();
+                        parentUserName = et_userName.getText().toString();
+                        Intent intent = new Intent(this, RootActivity.class);
+                        startActivity(intent);
+                        et_userName.setText("");
+                        et_password.setText("");
+                    } else {
+                        setFalseLogInDialog();
+                    }
+                } else {
+                    passRegistrationDialog();
+                }
                 break;
             case R.id.register_btn:
                 setIntentForGoingRegisterActivity();
@@ -98,24 +111,14 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void checkLogIn() {
-        if (DataBase.personsList != null) {
-            for (int i = 0; i < DataBase.personsList.size(); i++) {
-                if (DataBase.personsList.get(i).getUserName().equals(et_userName.getText().toString()) && DataBase.personsList.get(i).getPassword().equals(et_password.getText().toString())) {
-                    Toast.makeText(this, "You pass LogIn step successfully", Toast.LENGTH_LONG).show();
-                    parentUserName = et_userName.getText().toString();
-                    Intent intent = new Intent(this, RootActivity.class);
-                    // intent.putExtra("register",true);
-                    startActivity(intent);
-                    et_userName.setText("");
-                    et_password.setText("");
-                    return;
-                } else {
-                    setFalseLogInDialog();
-                }
+    public boolean checkLogIn() {
+        for (int i = 0; i < DataBase.personsList.size(); i++) {
+            if (DataBase.personsList.get(i).getUserName().equals(et_userName.getText().toString()) && DataBase.personsList.get(i).getPassword().equals(et_password.getText().toString())) {
+                return true;
             }
-        } else if (DataBase.personsList == null) {
-            passRegistrationDialog();
         }
+        return false;
     }
+
+
 }

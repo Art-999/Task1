@@ -11,6 +11,15 @@ public class Message {
     private boolean fromLeftUser;
     private String sendFromUser;
     private String sendToUser;
+    private boolean sendFromMe;
+
+    public boolean isSendFromMe() {
+        return sendFromMe;
+    }
+
+    public void setSendFromMe(boolean sendFromMe) {
+        this.sendFromMe = sendFromMe;
+    }
 
     private Uri imageUri;
 
@@ -33,11 +42,12 @@ public class Message {
         this.imageUri = imageUri;
     }
 
-    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri) {
+    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe) {
         this.messageText = messageText;
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
         this.imageUri = imageUri;
+        this.sendFromMe = sendFromMe;
     }
 
     public Message(String messageText, boolean fromLeftUser, Uri image) {
@@ -52,6 +62,7 @@ public class Message {
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
     }
+
     public Message(String messageText, boolean fromLeftUser) {
         this.messageText = messageText;
         this.fromLeftUser = fromLeftUser;
@@ -102,7 +113,6 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageText='" + messageText + '\'' +
-                ", fromLeftUser=" + fromLeftUser +
                 ", sendFromUser='" + sendFromUser + '\'' +
                 ", sendToUser='" + sendToUser + '\'' +
                 ", imageUri=" + imageUri +

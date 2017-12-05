@@ -58,6 +58,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 setIntentToSignIn();
+                finish();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -90,7 +91,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         String lastName = et_lastName.getText().toString();
         String userName = et_userName.getText().toString();
         String password = et_password.getText().toString();
-        String parentUserName = null;
+        //String parentUserName = null;
         if (userName.equals("") || firstName.equals("") || lastName.equals("") || password.equals("")) {
             Toast.makeText(this, "Please fill all fields ", Toast.LENGTH_LONG).show();
         } else if (userName.length() > 10) {
@@ -98,28 +99,32 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         } else if (password.length() < 4) {
             Toast.makeText(this, "password field must be contain more than 4 Characters", Toast.LENGTH_LONG).show();
 
+        } else if (checkUserName()) {
+            Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
         } else {
-//            Person person = new Person();
-//            person.setUserName(et_userName.getText().toString());
-//            person.setFirstName(et_firstName.getText().toString());
-//            person.setLastName(et_lastName.getText().toString());
-//            person.setPassword(et_password.getText().toString());
-//            if (chekAddUsers!=null) {
-//                person.setParentUserName(MainActivity.getParentUserName());
-//                Log.d("Art", true + "");
-//            }
-//            DataBase.addPerson(person);
-//
-//            Log.d("Art", person.getParentUserName() + " " + person.getUserName());
-            DatabaseOperations databaseOperations = new DatabaseOperations(this);
-            if (databaseOperations.checkUserName(databaseOperations, userName)) {
-                Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
-
-            } else if(!(databaseOperations.checkUserName(databaseOperations,userName))){
-                databaseOperations.putPersonToDB(databaseOperations, firstName, lastName, userName, password, parentUserName);
-
-                setSuccessSignInDialog();
+            Person person = new Person();
+            person.setUserName(userName);
+            person.setFirstName(firstName);
+            person.setLastName(lastName);
+            person.setPassword(password);
+            if (chekAddUsers != null) {
+                person.setParentUserName(MainActivity.getParentUserName());
+                Log.d("Art", true + "");
             }
+            DataBase.addPerson(person);
+            Log.d("Artur",person.toString());
+
+
+//            DatabaseOperations databaseOperations = new DatabaseOperations(this);
+//            if (databaseOperations.checkUserName(databaseOperations, userName)) {
+//                Toast.makeText(this, "This username is busy please choose another one", Toast.LENGTH_LONG).show();
+//
+//            } else if(!(databaseOperations.checkUserName(databaseOperations,userName))){
+//                databaseOperations.putPersonToDB(databaseOperations, firstName, lastName, userName, password, parentUserName);
+//
+//
+//            }
+            setSuccessSignInDialog();
 
             et_userName.setText("");
             et_firstName.setText("");

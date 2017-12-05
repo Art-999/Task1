@@ -7,8 +7,24 @@ import java.util.ArrayList;
  */
 
 public class DataBase {
+    private static DataBase instance;
     static ArrayList<Person> personsList;
     static ArrayList<Message> messageHistoryList;
+
+    //narek
+   // private HashMap<String, HashMap<String, ArrayList<Message>>> messageHashMap;
+
+
+    private DataBase() {
+
+    }
+
+    public static DataBase getInstance() {
+        if (instance == null) {
+            instance = new DataBase();
+        }
+        return instance;
+    }
 
     public static void addPerson(Person person) {
         if (personsList == null) {
