@@ -139,16 +139,13 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
             case R.id.user1_btn:
                 addMessageToRecycler(et_Message.getText().toString());
                 break;
-//            case R.id.user2_btn:
-//                addMessageToRecycler(et_Message.getText().toString(), false);
-//                break;
             case R.id.gallery_btn:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
                 break;
             case R.id.map_btn:
-                Intent intent1=new Intent(this,MapsActivity.class);
+                Intent intent1 = new Intent(this, MapsActivity.class);
                 startActivity(intent1);
                 break;
         }
@@ -187,13 +184,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         if (selectedUserName != null) {
             if (!msg.equals("") && !selectedUserName.equals("")) {
                 recyclerView.setVisibility(View.VISIBLE);
-//                if (fromLeftUser) {
-//                    adapter.addMessage(new Message(msg, true));
-//                    DataBase.addMessageToHistory(new Message(msg, yourUserName, selectedUserName));
-//                } else {
-//                    adapter.addMessage(new Message(msg, false));
-//                    DataBase.addMessageToHistory(new Message(msg, selectedUserName, yourUserName));
-//                }
                 adapter.addMessage(new Message(msg, yourUserName, selectedUserName, null, true));
                 DataBase.getInstance().addMessageToHistory(new Message(msg, yourUserName, selectedUserName, null, true));
                 if (adapter.getItemCount() > 3) {
@@ -248,24 +238,8 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
             for (int i = 0; i < DataBase.getInstance().getMessageHistoryList().size(); i++) {
                 if ((DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(sender) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(receiver)) ||
                         (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender))) {
-//                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
-//                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), sender, receiver, null, true));
-//                        Log.d("Artur", "1 if worked");
-//                    } else {
-//                        adapter.addMessage(new Message("image", sender, receiver, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), true));
-//                        Log.d("Artur", "2 if worked");
-//                    }
                     adapter.addMessage(DataBase.getInstance().getMessageHistoryList().get(i));
-
-                } /*else if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender)) {
-                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
-                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), receiver, sender, null, false));
-                        Log.d("Artur", "3 if worked");
-                    } else {
-                        adapter.addMessage(new Message("image", receiver, sender, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), false));
-                        Log.d("Artur", "4 if worked");
-                    }
-                }*/
+                }
             }
         }
     }

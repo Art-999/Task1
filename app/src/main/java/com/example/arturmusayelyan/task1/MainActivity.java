@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        Bundle bundle = new Bundle();
 //        bundle.putBoolean("register", false);
+        //ShortcutIcon();
     }
 
     public static String getParentUserName() {
@@ -118,6 +119,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void ShortcutIcon(){
+
+        Intent shortcutIntent = new Intent(getApplicationContext(), MainActivity.class);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Test");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.shortcut));
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
     }
 
 
