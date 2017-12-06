@@ -1,7 +1,6 @@
 package com.example.arturmusayelyan.task1;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private static final int YOU = 1;
     private LayoutInflater inflater;
     private Context context;
-    static ArrayList<Message> messageData;
+    private ArrayList<Message> messageData;
 
     public MyAdapter(Context context) {
         this.context = context;
@@ -58,13 +57,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 holder.yourMessage_imgView.setVisibility(View.GONE);
                 holder.yourMessage_tv.setVisibility(View.VISIBLE);
                 holder.yourMessage_tv.setText(currentMessage.getMessageText());
-                Log.d("Artur","my adapter if worked");
+                Log.d("Artur", "my adapter if worked");
 
-            } else if (currentMessage.getImageUri()!=null){
+            } else if (currentMessage.getImageUri() != null) {
                 holder.yourMessage_tv.setVisibility(View.GONE);
-                holder.yourMessage_imgView.setImageURI(Uri.parse(currentMessage.getImageUri()));
                 holder.yourMessage_imgView.setVisibility(View.VISIBLE);
-                Log.d("Artur","my adapter else worked");
+                holder.yourMessage_imgView.setImageURI(null);
+                holder.yourMessage_imgView.setImageURI(currentMessage.getImageUri());
+                Log.d("Artur", "my adapter else worked");
             }
 
         } else if (holder.getItemViewType() == YOU) {
@@ -72,13 +72,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 holder.otherMessage_imgView.setVisibility(View.GONE);
                 holder.otherMessage_tv.setVisibility(View.VISIBLE);
                 holder.otherMessage_tv.setText(currentMessage.getMessageText());
-                Log.d("Artur","your adapter if worked");
+                Log.d("Artur", "your adapter if worked");
 
-            } else if(currentMessage.getImageUri()!=null){
+            } else if (currentMessage.getImageUri() != null) {
                 holder.otherMessage_tv.setVisibility(View.GONE);
-                holder.otherMessage_imgView.setImageURI(Uri.parse(currentMessage.getImageUri()));
                 holder.otherMessage_imgView.setVisibility(View.VISIBLE);
-                Log.d("Artur","your adapter else worked");
+                holder.otherMessage_imgView.setImageURI(null);
+                holder.otherMessage_imgView.setImageURI(currentMessage.getImageUri());
+                Log.d("Artur", "your adapter else worked");
             }
 
         }
@@ -125,7 +126,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return messageData.get(position).isSendFromMe() ? ME : YOU;
+        return messageData.get(position).getSendFromUser().equals(MainActivity.getParentUserName()) ? ME : YOU;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -141,5 +142,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             yourMessage_imgView = itemView.findViewById(R.id.your_message_iv);
             otherMessage_imgView = itemView.findViewById(R.id.other_message_iv);
         }
+    }
+
+    public void adapterDataClear() {
+        messageData.clear();
+        notifyDataSetChanged();
     }
 }

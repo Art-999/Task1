@@ -21,7 +21,7 @@ public class Message {
         this.sendFromMe = sendFromMe;
     }
 
-    private String imageUri;
+    private Uri imageUri;
 
     public Message() {
 
@@ -42,7 +42,7 @@ public class Message {
 //        this.imageUri = imageUri;
 //    }
 
-    public Message(String messageText, String sendFromUser, String sendToUser, String imageUri, boolean sendFromMe) {
+    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe) {
         this.messageText = messageText;
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
@@ -101,11 +101,11 @@ public class Message {
         this.sendToUser = sendToUser;
     }
 
-    public String getImageUri() {
+    public Uri getImageUri() {
         return imageUri;
     }
 
-    public void setImageUri(String imageUri) {
+    public void setImageUri(Uri imageUri) {
         this.imageUri = imageUri;
     }
 

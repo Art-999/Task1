@@ -146,6 +146,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/gallery_btn"
+                android:onClick="onClick"
                 android:background="@drawable/placeholder" />
 
         </RelativeLayout>

@@ -6,6 +6,7 @@
     <TextView
         android:visibility="visible"
         android:id="@+id/other_message_tv"
+        android:autoLink="all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"

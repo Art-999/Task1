@@ -19,6 +19,7 @@
         android:paddingLeft="35dp"
         android:paddingRight="35dp"
         android:paddingTop="5dp"
+        android:autoLink="all"
         android:text="sdjdsfsjdfnjsdnfjsjdfsjfsjd sdjfdjdfndjfndjfnjdnjnjnjnjn f fjdfnjndf fnjdf"
         android:textSize="16sp"
         android:textStyle="bold" />

@@ -47,6 +47,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     public void setIntentToSignIn() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -58,7 +59,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 setIntentToSignIn();
-                finish();
+               // finish();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

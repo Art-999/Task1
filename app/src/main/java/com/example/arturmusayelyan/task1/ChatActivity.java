@@ -147,6 +147,10 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
                 break;
+            case R.id.map_btn:
+                Intent intent1=new Intent(this,MapsActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
 
@@ -211,8 +215,9 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 if (selectedImageUri != null) {
                     Log.d("Artur", selectedImageUri + "");
 
-                    adapter.addMessage(new Message("image", yourUserName, selectedUserName, selectedImageUri.toString(), true));
-                    DataBase.getInstance().addMessageToHistory(new Message("image", yourUserName, selectedUserName, selectedImageUri.toString(), true));
+                    Message msg = new Message("image", yourUserName, selectedUserName, selectedImageUri, true);
+                    adapter.addMessage(msg);
+                    DataBase.getInstance().addMessageToHistory(msg);
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
@@ -226,7 +231,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         tvSelectedUser.setText(selectedUserName);
 
         // recyclerView.setVisibility(View.VISIBLE);
-        MyAdapter.messageData.clear();
+        adapter.adapterDataClear();
         showMessageHistory(yourUserName, selectedUserName);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -241,16 +246,18 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         recyclerView.setVisibility(View.VISIBLE);
         if (DataBase.getInstance().getMessageHistoryList() != null) {
             for (int i = 0; i < DataBase.getInstance().getMessageHistoryList().size(); i++) {
-                if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(sender) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(receiver)) {
-                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
-                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), sender, receiver, null, true));
-                        Log.d("Artur", "1 if worked");
-                    } else {
-                        adapter.addMessage(new Message("image", sender, receiver, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), true));
-                        Log.d("Artur", "2 if worked");
-                    }
+                if ((DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(sender) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(receiver)) ||
+                        (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender))) {
+//                    if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
+//                        adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), sender, receiver, null, true));
+//                        Log.d("Artur", "1 if worked");
+//                    } else {
+//                        adapter.addMessage(new Message("image", sender, receiver, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), true));
+//                        Log.d("Artur", "2 if worked");
+//                    }
+                    adapter.addMessage(DataBase.getInstance().getMessageHistoryList().get(i));
 
-                } else if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender)) {
+                } /*else if (DataBase.getInstance().getMessageHistoryList().get(i).getSendFromUser().equals(receiver) && DataBase.getInstance().getMessageHistoryList().get(i).getSendToUser().equals(sender)) {
                     if (DataBase.getInstance().getMessageHistoryList().get(i).getImageUri() == null) {
                         adapter.addMessage(new Message(DataBase.getInstance().getMessageHistoryList().get(i).getMessageText(), receiver, sender, null, false));
                         Log.d("Artur", "3 if worked");
@@ -258,7 +265,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                         adapter.addMessage(new Message("image", receiver, sender, DataBase.getInstance().getMessageHistoryList().get(i).getImageUri(), false));
                         Log.d("Artur", "4 if worked");
                     }
-                }
+                }*/
             }
         }
     }
