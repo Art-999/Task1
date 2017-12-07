@@ -1,12 +1,15 @@
 package com.example.arturmusayelyan.task1;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,23 +101,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID)
 
 
-//        goToLocationZoom(40.178613, 44.512654, 16);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                // TODO: Consider calling
-//                //    ActivityCompat#requestPermissions
-//                // here to request the missing permissions, and then overriding
-//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                //                                          int[] grantResults)
-//                // to handle the case where the user grants the permission. See the documentation
-//                // for ActivityCompat#requestPermissions for more details.
-//                return;
-//            }
-//        }
-//        mMap.setMyLocationEnabled(true);
+        goToLocationZoom(40.178613, 44.512654, 16);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+        }
+        mMap.setMyLocationEnabled(true);
 
-        apiClient=new GoogleApiClient.Builder(this)
-                .addApi(LOCATION_SERVICE.API)
+       // GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this)
+
+
     }
 
     private void goToLocation(double lat, double lng) {
@@ -137,7 +141,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 List<Address> addressList = geocoder.getFromLocationName(location, 1);
                 Address address = addressList.get(0);
                 String locality = address.getLocality();
-                Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+                if(locality!=null){
+                    Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+                }
 
                 double lat = address.getLatitude();
                 double lng = address.getLongitude();
