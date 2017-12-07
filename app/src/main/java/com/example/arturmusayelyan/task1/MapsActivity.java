@@ -32,8 +32,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.IOException;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener,GoogleApiClient.ConnectionCallbacks {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener, GoogleApiClient.ConnectionCallbacks {
     //usefull https://developers.google.com/maps/documentation/android-api/start
+    //https://stackoverflow.com/questions/12668551/share-location-with-share-intent-activity
+    //https://stackoverflow.com/questions/22036033/how-to-share-the-location-in-mapv2-in-android
 
     private GoogleMap mMap;
     private EditText geoLocate_et;
@@ -116,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.setMyLocationEnabled(true);
 
-       // GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this)
+        // GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this)
 
 
     }
@@ -141,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 List<Address> addressList = geocoder.getFromLocationName(location, 1);
                 Address address = addressList.get(0);
                 String locality = address.getLocality();
-                if(locality!=null){
+                if (locality != null) {
                     Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
                 }
 
