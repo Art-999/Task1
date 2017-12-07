@@ -83,39 +83,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
 
         }
-
-        //im orinakna
-//        if (currentMessage.getImageUri() == null && currentMessage.isSendFromMe()) {
-//            holder.imageView.setVisibility(View.GONE);
-//            holder.tvYourMessage.setText(currentMessage.getMessageText());
-//            holder.tvOtherMessage.setVisibility(View.INVISIBLE);
-//        } else if (currentMessage.getImageUri() == null && !(currentMessage.isSendFromMe())) {
-//            holder.imageView.setVisibility(View.GONE);
-//            holder.tvOtherMessage.setText(currentMessage.getMessageText());
-//            holder.tvYourMessage.setVisibility(View.INVISIBLE);
-//        } else if (currentMessage.getImageUri() != null) {
-//            holder.tvYourMessage.setVisibility(View.GONE);
-//            holder.tvOtherMessage.setVisibility(View.GONE);
-//            holder.imageView.setVisibility(View.VISIBLE);
-//            holder.imageView.setImageURI(currentMessage.getImageUri());
-//        }
-
-
-        //Karoyi orinakna
-//        if (currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
-//            holder.tvYourMessage.setText(currentMessage.getMessageText());
-//            holder.tvOtherMessage.setVisibility(View.INVISIBLE);
-//        } else if (!currentMessage.isFromLeftUser() && currentMessage.getImageUri()==null) {
-//            holder.tvOtherMessage.setText(currentMessage.getMessageText());
-//            holder.tvYourMessage.setVisibility(View.INVISIBLE);
-//        } else if (currentMessage.getImageUri() != null) {
-//            Log.d("Art", "ImageUri worked");
-//            holder.tvYourMessage.setVisibility(View.GONE);
-//            holder.tvOtherMessage.setVisibility(View.GONE);
-//
-//            holder.imageView.setVisibility(View.VISIBLE);
-//            holder.imageView.setImageURI(currentMessage.getImageUri());
-//        }
     }
 
 

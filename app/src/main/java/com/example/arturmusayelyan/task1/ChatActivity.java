@@ -24,7 +24,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     private RecyclerView recyclerView;
     private ListView listView;
     private RelativeLayout messageLayout;
-    //1  private boolean booleanForUserList = true;
 
     private TextView tvSelectedUser;
     static String selectedUserName;
@@ -77,20 +76,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
         checkChatWithUsersListButton = false;
 
-        //1
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                selectedUserName = listView.getItemAtPosition(position).toString();
-//                tvSelectedUser.setText(selectedUserName);
-//                listView.setVisibility(View.GONE);
-//                usersList.clear();
-//                adapterForUserslist.notifyDataSetChanged();
-//                booleanForUserList = true;
-//                MyAdapter.messageData.clear();
-//                showMessageHistory(yourUserName, selectedUserName);
-//            }
-//        });
 
         messagesList = new ArrayList<>();
         adapter = new MyAdapter(this);
@@ -103,20 +88,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.showAllUsersList_Btn:
-                //1
-//                selectedUserName = null;
-//                recyclerView.setVisibility(View.GONE);
-//
-//                if (booleanForUserList) {
-//                    listView.setVisibility(View.VISIBLE);
-//                    showAllUsersList();
-//                    booleanForUserList = false;
-//                } else {
-//                    usersList.clear();
-//                    adapterForUserslist.notifyDataSetChanged();
-//                    booleanForUserList = true;
-//                }
-
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if (!checkChatWithUsersListButton) {
@@ -150,21 +121,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 break;
         }
     }
-
-    //harmara sovorakan aranc fragmenti orinaki hamar
-    public void showAllUsersList() {
-        if (DataBase.getInstance().getPersonsList() != null) {
-            //recyclerView.setVisibility(View.VISIBLE);
-            tvSelectedUser.setText("");
-            for (int i = 0; i < DataBase.getInstance().getPersonsList().size(); i++) {
-                if (!(DataBase.getInstance().getPersonsList().get(i).getUserName()).equals(MainActivity.getParentUserName())) {
-                    adapterForUserslist.add(DataBase.getInstance().getPersonsList().get(i).getUserName());
-                    adapterForUserslist.notifyDataSetChanged();
-                }
-            }
-        }
-    }
-
 
     public ArrayList<String> showUsersListForChat() {
         ArrayList<String> dataList = new ArrayList<>();
