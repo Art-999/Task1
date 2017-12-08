@@ -133,7 +133,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             yourMessage_imgView = itemView.findViewById(R.id.your_message_iv);
             otherMessage_imgView = itemView.findViewById(R.id.other_message_iv);
 
-            layout_for_map = itemView.findViewById(R.id.frame_layout_for_chat_map);
+         //   layout_for_map = itemView.findViewById(R.id.frame_layout_for_chat_map);
 
         }
     }
