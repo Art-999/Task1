@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/myUsers_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
 
         android:layout_marginLeft="5dp"
         android:layout_below="@id/addUsers_btn"
@@ -23,8 +23,8 @@
 
     <Button
         android:id="@+id/allUsers_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:layout_marginTop="15dp"
@@ -36,8 +36,8 @@
 
     <Button
         android:id="@+id/addUsers_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
         android:background="@drawable/buttons_root"
@@ -47,8 +47,8 @@
         android:text="add Users" />
     <Button
         android:id="@+id/chat_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/allUsers_btn"
         android:layout_marginTop="10dp"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="165dp">
 
     </FrameLayout>
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="165dp">
 
     </FrameLayout>
 

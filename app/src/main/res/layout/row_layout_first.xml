@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:visibility="visible"
         android:id="@+id/your_message_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,18 +13,18 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="100dp"
         android:layout_marginTop="5dp"
+        android:autoLink="all"
         android:background="@drawable/message1background"
         android:paddingBottom="5dp"
         android:paddingLeft="35dp"
         android:paddingRight="35dp"
         android:paddingTop="5dp"
-        android:autoLink="all"
         android:text="sdjdsfsjdfnjsdnfjsjdfsjfsjd sdjfdjdfndjfndjfnjdnjnjnjnjn f fjdfnjndf fnjdf"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="visible" />
 
     <ImageView
-        android:visibility="visible"
         android:id="@+id/your_message_iv"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -33,7 +32,30 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="100dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/example"/>
+        android:src="@drawable/example"
+        android:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/frame_layout_for_chat_map"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map_for_chat"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="250dp"
+        android:layout_height="160dp"
+        map:cameraZoom="13"
+        map:mapType="normal"
+        map:liteMode="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        tools:context="com.example.arturmusayelyan.task1.MapsActivity" />
+    </FrameLayout>
 
 
 </LinearLayout>

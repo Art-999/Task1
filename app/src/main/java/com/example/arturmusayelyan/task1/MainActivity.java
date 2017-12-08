@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 //        Bundle bundle = new Bundle();
 //        bundle.putBoolean("register", false);
         //ShortcutIcon();
+
+        DataBase.getInstance().addPerson(new Person("Art", "0000", "Artur", "Musayelyan"));
+        DataBase.getInstance().addPerson(new Person("Kar", "0000", "Karen", "Karapetyan"));
+        DataBase.getInstance().addPerson(new Person("Nar", "0000", "Narek", "Minasyan"));
+        DataBase.getInstance().addPerson(new Person("Rub", "0000", "Ruben", "Grigoryan"));
     }
 
     public static String getParentUserName() {
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void ShortcutIcon(){
+    private void ShortcutIcon() {
 
         Intent shortcutIntent = new Intent(getApplicationContext(), MainActivity.class);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

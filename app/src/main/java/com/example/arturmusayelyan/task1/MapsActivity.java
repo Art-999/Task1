@@ -37,7 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //https://stackoverflow.com/questions/12668551/share-location-with-share-intent-activity
     //https://stackoverflow.com/questions/22036033/how-to-share-the-location-in-mapv2-in-android
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private EditText geoLocate_et;
     private Button geoLocate_btn;
     private GoogleApiClient apiClient;
@@ -104,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         goToLocationZoom(40.178613, 44.512654, 16);
+       // mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -129,10 +130,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(update);
     }
 
-    private void goToLocationZoom(double lat, double lng, int zoom) {
+    public static void goToLocationZoom(double lat, double lng, int zoom) {
         LatLng latLng = new LatLng(lat, lng);
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         mMap.moveCamera(update);
+
     }
 
     public void geoLocate() {

@@ -51,14 +51,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         listView = new ListView(this);
         messageLayout.addView(listView);
         usersList = new ArrayList<>();
-        //1 adapterForUserslist = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersList);
-        //1 listView.setAdapter(adapterForUserslist);
 
-//        SignInActivity.ParentUsername = "Art88";
-//        DataBase.addPerson(new Person("Art88", "Artur", "Musayelyan", "89494"));
-//        DataBase.addPerson(new Person("Kar89", "Artur", "Musayelyan", "89494"));
-//        DataBase.addPerson(new Person("Manvel99", "Artur", "Musayelyan", "89494"));
-//        DataBase.addPerson(new Person("Rubo89", "Artur", "Musayelyan", "89494"));
 
         et_Message = (EditText) findViewById(R.id.message_ET);
         tvYourUserName = (TextView) findViewById(R.id.yourUserName_TV);
