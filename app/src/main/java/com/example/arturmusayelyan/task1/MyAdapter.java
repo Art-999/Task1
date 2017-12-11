@@ -1,7 +1,6 @@
 package com.example.arturmusayelyan.task1;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +10,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import java.util.ArrayList;
 
 /**
  * Created by artur.musayelyan on 28/11/2017.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements OnMapReadyCallback {
     private static final int ME = 0;
     private static final int YOU = 1;
     private LayoutInflater inflater;
@@ -25,13 +27,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<Message> messageData;
 
 
-   // private GoogleMap mMap;
+    private GoogleMap mMap;
 
     public MyAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         messageData = new ArrayList<>();
 
+        //this.mMap = mMap;
     }
 
     public void addMessage(Message msg) {
@@ -60,22 +63,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         //Nareki orinakna
         if (holder.getItemViewType() == ME) {
             if (currentMessage.getImageUri() == null) {
+
                 holder.yourMessage_imgView.setVisibility(View.GONE);
                 holder.yourMessage_tv.setVisibility(View.VISIBLE);
                 holder.yourMessage_tv.setText(currentMessage.getMessageText());
 
-                //GoogleMapOptions options = new GoogleMapOptions().liteMode(true)
- //               holder.yourMessage_tv.setVisibility(View.GONE);
-//                android.support.v4.app.FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                MapForChatActivity mapFragment=MapForChatActivity.newInstance();
-//                fragmentTransaction.add(R.id.frame_layout_for_chat_with_users,mapFragment);
-//                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                fragmentTransaction.commit();
-                //holder.layout_for_map.addView(MapForChatActivity.newInstance());
-
-
-                //holder.yourMessage_tv.setText(new LatLng(40.178613, 44.512654).toString());
+                //holder.layout_for_map.addView(holder.mapView);
+                //holder.layout_for_map.setVisibility(View.VISIBLE);
                 Log.d("Artur", "my adapter if worked");
 
             } else if (currentMessage.getImageUri() != null) {
@@ -124,7 +118,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         ImageView otherMessage_imgView;
 
         FrameLayout layout_for_map;
-        Fragment fragment_for_map;
+       // View mapView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -133,8 +127,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             yourMessage_imgView = itemView.findViewById(R.id.your_message_iv);
             otherMessage_imgView = itemView.findViewById(R.id.other_message_iv);
 
-         //   layout_for_map = itemView.findViewById(R.id.frame_layout_for_chat_map);
-
+            //layout_for_map = itemView.findViewById(R.id.frame_layout_for_chat_map);
+            //mapView = layout_for_map.findViewById(R.id.map_for_fragment);
         }
     }
 
@@ -144,6 +138,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+    }
 
 
 }

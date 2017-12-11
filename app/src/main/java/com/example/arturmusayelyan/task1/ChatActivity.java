@@ -40,10 +40,13 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
     private ChatWithUsersFragment chatWithUsersFragment;
     private boolean checkChatWithUsersListButton;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         messageLayout = (RelativeLayout) findViewById(R.id.messageLayout);
 

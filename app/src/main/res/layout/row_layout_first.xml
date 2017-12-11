@@ -34,28 +34,27 @@
         android:layout_marginTop="5dp"
         android:src="@drawable/example"
         android:visibility="visible" />
-
     <!--<FrameLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--android:id="@+id/frame_layout_for_chat_map"-->
         <!--android:visibility="visible"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
-
-    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:map="http://schemas.android.com/apk/res-auto"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--android:id="@+id/map_for_chat"-->
-        <!--android:name="com.google.android.gms.maps.MapFragment"-->
-        <!--android:layout_width="250dp"-->
-        <!--android:layout_height="160dp"-->
-        <!--map:cameraZoom="13"-->
-        <!--map:mapType="normal"-->
-        <!--map:liteMode="true"-->
-        <!--android:layout_marginBottom="5dp"-->
-        <!--android:layout_marginLeft="25dp"-->
+        <!--android:layout_marginLeft="5dp"-->
         <!--android:layout_marginTop="5dp"-->
-        <!--tools:context="com.example.arturmusayelyan.task1.MapsActivity" />-->
-    <!--</FrameLayout>-->
+        <!--android:layout_marginRight="100dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="150dp" >-->
+        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:map="http://schemas.android.com/apk/res-auto"-->
+            <!--android:name="com.google.android.gms.maps.MapFragment"-->
+            <!--android:id="@+id/map_for_fragment"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--map:cameraZoom="13"-->
+            <!--map:mapType="normal"-->
+            <!--map:liteMode="true"/>-->
+        <!--</FrameLayout>-->
+
+
 
 
 </LinearLayout>
