@@ -1,17 +1,19 @@
 package com.example.arturmusayelyan.task1;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    private static final int PERMISSION_REQUEST = 45;
     //usefull https://developers.google.com/maps/documentation/android-api/start
     //https://stackoverflow.com/questions/12668551/share-location-with-share-intent-activity
     //https://stackoverflow.com/questions/22036033/how-to-share-the-location-in-mapv2-in-android
@@ -51,6 +54,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient googleApiClient;
     private Marker marker;
 
+    private boolean locationBull;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             initMap();
         }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //setUpMapIfNeeded();
 
     }
 
@@ -73,6 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         geoLocate_btn = findViewById(R.id.goto_location_btn);
         geoLocate_et = findViewById(R.id.goto_location_et);
         geoLocate_btn.setOnClickListener(this);
+
+        locationBull = false;
 
     }
 
@@ -103,8 +108,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
 
         //markeri masna
         if (mMap != null) {
@@ -149,15 +152,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     TextView tvLatitude = view.findViewById(R.id.info_window_tv_latitude);
                     TextView tvLongitude = view.findViewById(R.id.info_window_tv_longitude);
                     TextView tvSnippet = view.findViewById(R.id.info_window_tv_snippet);
+                    Button btnShare = view.findViewById(R.id.info_window_btn_share);
 
                     LatLng latLng = marker.getPosition();
                     tvLocality.setText(marker.getTitle());
                     tvLatitude.setText("Latitude: " + latLng.latitude);
                     tvLongitude.setText("Longitude: " + latLng.longitude);
                     tvSnippet.setText(marker.getSnippet());
+//                    btnShare.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Log.d("Artur", "Share button");
+//                        }
+//                    });
                     return view;
                 }
             });
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Log.d("Artur", "Share button");
+                    if (marker != null) {
+                        LatLng latLng = marker.getPosition();
+                        Double latitude = latLng.latitude;
+                        Double longitude = latLng.longitude;
+
+                        Intent intent = new Intent(MapsActivity.this, ChatActivity.class);
+                        intent.putExtra("latitude", latitude);
+                        intent.putExtra("longitude", longitude);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(MapsActivity.this, "Put marker for sharing location", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+
         }
 
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID)
@@ -190,6 +221,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         googleApiClient.connect();
 
+        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                Log.d("Artur", "Location button click");
+
+                Location currentLocation = mMap.getMyLocation();
+                Geocoder geocoder = new Geocoder(MapsActivity.this);
+                try {
+                    List<Address> addressList = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+                    if (addressList != null) {
+                        Address currentAddress = addressList.get(0);
+                        setMarker(currentAddress.getLocality(), currentAddress.getLatitude(), currentAddress.getLongitude());
+                        locationBull = false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+            }
+        });
     }
 
     private void goToLocation(double lat, double lng) {
@@ -210,23 +262,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    @SuppressLint("MissingPermission")
     public void geoLocate() {
         String location = geoLocate_et.getText().toString();
         if (!(location.equals(""))) {
             Geocoder geocoder = new Geocoder(this);
             try {
                 List<Address> addressList = geocoder.getFromLocationName(location, 1);
-                Address address = addressList.get(0);
-                String locality = address.getLocality();
-                if (locality != null) {
-                    Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+                if (addressList != null) {
+                    Address address = addressList.get(0);
+                    String locality = address.getLocality();
+                    if (locality != null) {
+                        Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+                    }
+
+                    double lat = address.getLatitude();
+                    double lng = address.getLongitude();
+                    goToLocationZoom(lat, lng, 15);
+
+                    setMarker(locality, lat, lng);// avelacnum e marker
+                    mMap.setMyLocationEnabled(true);
+                    locationBull = true;
+
+                } else {
+                    Toast.makeText(this, "Google map cant find your address", Toast.LENGTH_LONG).show();
                 }
-
-                double lat = address.getLatitude();
-                double lng = address.getLongitude();
-                goToLocationZoom(lat, lng, 15);
-
-                setMarker(locality, lat, lng);// avelacnum e marker
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -248,6 +308,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(new LatLng(lat, lng))
                 .snippet("I am Here");
         marker = mMap.addMarker(markerOptions);
+
     }
 
     @Override
@@ -268,6 +329,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
     @Override
@@ -304,26 +366,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationRequest LocationRequest;
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         LocationRequest = LocationRequest.create();
         LocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationRequest.setInterval(1000);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST);
+            return;
+
         }
 
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, LocationRequest, this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED || grantResults[1]==PackageManager.PERMISSION_DENIED){
+                Toast.makeText(MapsActivity.this,"Please access location",Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+        }
     }
 
     @Override
@@ -340,11 +413,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         if (location == null) {
             Toast.makeText(this, "Cant get current location", Toast.LENGTH_LONG).show();
-        }
-        else {
-            LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
-            CameraUpdate update=CameraUpdateFactory.newLatLngZoom(latLng,15);
+        } else if (!locationBull) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
             mMap.animateCamera(update);
+
+            Geocoder geocoder = new Geocoder(this);
+            List<Address> addressList = null;
+            try {
+                addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (addressList != null) {
+                Address address = addressList.get(0);
+                String locality = address.getLocality();
+                setMarker(locality, latLng.latitude, latLng.longitude);
+            } else {
+                Toast.makeText(this, "Google map cant find your address", Toast.LENGTH_LONG).show();
+            }
         }
     }
     //    @Override
