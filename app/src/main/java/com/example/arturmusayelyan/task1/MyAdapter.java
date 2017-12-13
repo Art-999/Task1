@@ -90,8 +90,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 holder.yourMessage_imgView.setVisibility(View.GONE);
                 holder.yourMap_imgView.setVisibility(View.VISIBLE);
 
+                //https://developers.google.com/maps/documentation/urls/android-intents
                 //               URL url=new URL(https://www.google.com/maps/place/CenturyLink+Field/@47.5951518,-122.3316394,17z/data=!3m1!4b1!4m5!3m4!1s0x54906aa3b9f1182b:0xa636cd513bba22dc!8m2!3d47.5951518!4d-122.3316394);
 //                holder.yourMap_imgView.setImageBitmap(getBitmapFromURL(url.toString()));
+//                Uri mapUri = Uri.parse("geo:37.7749,-122.4194");
+//                holder.yourMap_imgView.setImageURI(null);
+//                holder.yourMap_imgView.setImageURI(mapUri);
             }
 
         } else if (holder.getItemViewType() == YOU) {
