@@ -178,10 +178,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Double longitude = latLng.longitude;
 
                         Intent intent = new Intent(MapsActivity.this, ChatActivity.class);
-                        intent.putExtra("latitude", latitude);
-                        intent.putExtra("longitude", longitude);
+                        intent.putExtra("latitude", latitude.toString());
+                        intent.putExtra("longitude", longitude.toString());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+
+//                        Bitmap bitmap=Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888);
+//                        Canvas canvas=new Canvas(bitmap);
+//                        Log.d("Artur",canvas.toString());
+
+                        setResult(RESULT_OK,intent);
                         finish();
                     } else {
                         Toast.makeText(MapsActivity.this, "Put marker for sharing location", Toast.LENGTH_LONG).show();
@@ -392,8 +397,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED || grantResults[1]==PackageManager.PERMISSION_DENIED){
-                Toast.makeText(MapsActivity.this,"Please access location",Toast.LENGTH_LONG).show();
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED || grantResults[1] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(MapsActivity.this, "Please access location", Toast.LENGTH_LONG).show();
                 finish();
             }
 

@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity implements ChatWithUsersFragment.OnChatFragmentClickListener {
@@ -39,7 +41,6 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
     private ChatWithUsersFragment chatWithUsersFragment;
     private boolean checkChatWithUsersListButton;
-
 
 
     @Override
@@ -79,6 +80,8 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setStackFromEnd(true);
         recyclerView.setLayoutManager(manager);
+
+
     }
 
     public void onClick(View view) {
@@ -107,13 +110,22 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                 addMessageToRecycler(et_Message.getText().toString());
                 break;
             case R.id.gallery_btn:
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                if (selectedUserName != null) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                } else {
+                    Toast.makeText(this, "Choose user for chat", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.map_btn:
-                Intent intent1 = new Intent(this, MapsActivity.class);
-                startActivity(intent1);
+                if (selectedUserName != null) {
+                    Intent intent1 = new Intent(this, MapsActivity.class);
+                    //startActivity(intent1);
+                    startActivityForResult(intent1, 2);
+                } else {
+                    Toast.makeText(this, "Choose user for chat", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -136,8 +148,8 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
         if (selectedUserName != null) {
             if (!msg.equals("") && !selectedUserName.equals("")) {
                 recyclerView.setVisibility(View.VISIBLE);
-                adapter.addMessage(new Message(msg, yourUserName, selectedUserName, null, true));
-                DataBase.getInstance().addMessageToHistory(new Message(msg, yourUserName, selectedUserName, null, true));
+                adapter.addMessage(new Message(msg, yourUserName, selectedUserName, null, true, null));
+                DataBase.getInstance().addMessageToHistory(new Message(msg, yourUserName, selectedUserName, null, true, null));
                 if (adapter.getItemCount() > 3) {
                     recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 }
@@ -151,19 +163,39 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
                 Uri selectedImageUri = data.getData();
                 if (selectedImageUri != null) {
                     Log.d("Artur", selectedImageUri + "");
 
-                    Message msg = new Message("image", yourUserName, selectedUserName, selectedImageUri, true);
+                    Message msg = new Message("image", yourUserName, selectedUserName, selectedImageUri, true, null);
                     adapter.addMessage(msg);
                     DataBase.getInstance().addMessageToHistory(msg);
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+//            Bundle latitudeExtras = getIntent().getExtras();
+//            Double latitude = null;
+//            if (latitudeExtras != null) {
+//                latitude = latitudeExtras.getDouble("latitude");
+//            }
+//            Bundle longitudeExtras = getIntent().getExtras();
+//            Double longitude = null;
+//            if (longitudeExtras != null) {
+//                longitude = longitudeExtras.getDouble("longitude");
+//            }
+            Double latitude = Double.parseDouble(data.getStringExtra("latitude"));
+            Double longitude = Double.parseDouble(data.getStringExtra("longitude"));
+            Log.d("Artur", latitude + " " + longitude);
+            tvSelectedUser.setText(selectedUserName);
+            LatLng latLng = new LatLng(latitude, longitude);
+            Message message = new Message("map", yourUserName, selectedUserName, null, true, latLng);
+            adapter.addMessage(message);
+            DataBase.getInstance().addMessageToHistory(message);
         }
     }
 

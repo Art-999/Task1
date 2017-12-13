@@ -2,6 +2,8 @@ package com.example.arturmusayelyan.task1;
 
 import android.net.Uri;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by artur.musayelyan on 28/11/2017.
  */
@@ -12,6 +14,15 @@ public class Message {
     private String sendFromUser;
     private String sendToUser;
     private boolean sendFromMe;
+    private LatLng latLng;
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
 
     public boolean isSendFromMe() {
         return sendFromMe;
@@ -42,12 +53,13 @@ public class Message {
 //        this.imageUri = imageUri;
 //    }
 
-    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe) {
+    public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe, LatLng latLng) {
         this.messageText = messageText;
         this.sendFromUser = sendFromUser;
         this.sendToUser = sendToUser;
         this.imageUri = imageUri;
         this.sendFromMe = sendFromMe;
+        this.latLng = latLng;
     }
 
 //    public Message(String messageText, boolean fromLeftUser, Uri image) {
