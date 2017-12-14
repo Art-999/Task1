@@ -101,9 +101,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 holder.yourMessage_imgView.setVisibility(View.GONE);
                 holder.yourMap_imgView.setVisibility(View.VISIBLE);
 
-                final LatLng latLng=currentMessage.getLatLng();
+                final LatLng latLng = currentMessage.getLatLng();
                 try {
-                    holder.yourMap_imgView.setImageBitmap(new BackgroundTask(latLng.latitude,latLng.longitude).execute().get());
+                    holder.yourMap_imgView.setImageBitmap(new BackgroundTask(latLng.latitude, latLng.longitude).execute().get());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -112,8 +112,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 holder.yourMap_imgView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri gmnIntentUri=Uri.parse("geo:"+latLng.latitude+","+latLng.longitude);
-                        Intent mapIntent=new Intent(Intent.ACTION_VIEW,gmnIntentUri);
+                        Uri gmnIntentUri = Uri.parse("geo:" + latLng.latitude + "," + latLng.longitude);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmnIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         context.startActivity(mapIntent);
                     }
@@ -140,9 +140,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 holder.otherMessage_imgView.setVisibility(View.GONE);
                 holder.otherMap_imgView.setVisibility(View.VISIBLE);
 
-                final LatLng latLng=currentMessage.getLatLng();
+                final LatLng latLng = currentMessage.getLatLng();
                 try {
-                    holder.otherMap_imgView.setImageBitmap(new BackgroundTask(latLng.latitude,latLng.longitude).execute().get());
+                    holder.otherMap_imgView.setImageBitmap(new BackgroundTask(latLng.latitude, latLng.longitude).execute().get());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -152,8 +152,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
                 holder.otherMap_imgView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri gmnIntentUri=Uri.parse("geo:"+latLng.latitude+","+latLng.longitude);
-                        Intent mapIntent=new Intent(Intent.ACTION_VIEW,gmnIntentUri);
+                        Uri gmnIntentUri = Uri.parse("geo:" + latLng.latitude + "," + latLng.longitude);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmnIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         context.startActivity(mapIntent);
                     }
@@ -182,7 +182,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         ImageView otherMessage_imgView;
         ImageView yourMap_imgView;
         ImageView otherMap_imgView;
-       // TextView yourMap_tv;
+        // TextView yourMap_tv;
 
         FrameLayout layout_for_map;
         // View mapView;
@@ -197,7 +197,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
             yourMap_imgView = itemView.findViewById(R.id.your_map_iv);
             otherMap_imgView = itemView.findViewById(R.id.other_map_iv);
 
-           //yourMap_tv=itemView.findViewById(R.id.your_map_tv);
+            //yourMap_tv=itemView.findViewById(R.id.your_map_tv);
         }
     }
 
@@ -227,8 +227,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         }
     }
 
-    public static Bitmap getGoogleMapThumbnail(double lati, double longi){
-        String URL = "http://maps.google.com/maps/api/staticmap?center=" +lati + "," + longi + "&zoom=15&size=200x150&sensor=false";
+    public static Bitmap getGoogleMapThumbnail(double lati, double longi) {
+        String URL = "http://maps.google.com/maps/api/staticmap?center=" + lati + "," + longi + "&zoom=15&size=200x150&sensor=false";
         Bitmap bmp = null;
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(URL);
@@ -255,9 +255,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     class BackgroundTask extends AsyncTask<Void, Void, Bitmap> {
         Double latitude;
         Double longitude;
-        public BackgroundTask(Double latitude,Double longitude){
-            this.latitude=latitude;
-            this.longitude=longitude;
+
+        public BackgroundTask(Double latitude, Double longitude) {
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
 
         @Override
@@ -267,8 +268,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
-            String URL = "http://maps.google.com/maps/api/staticmap?center=" +latitude + "," + longitude +
-                    "&zoom=14&size=300x200&sensor=false"+"&markers=color:blue%7Clabel:S%7C"+latitude+","+longitude;
+            String URL = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=14&size=300x200&sensor=false" + "&markers=color:blue%7Clabel:S%7C" + latitude + "," + longitude;
             Bitmap bmp = null;
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet request = new HttpGet(URL);
