@@ -172,6 +172,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
                     Message msg = new Message("image", yourUserName, selectedUserName, selectedImageUri, true, null);
                     adapter.addMessage(msg);
                     DataBase.getInstance().addMessageToHistory(msg);
+                    recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 } else {
                     Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
@@ -196,6 +197,7 @@ public class ChatActivity extends AppCompatActivity implements ChatWithUsersFrag
             Message message = new Message("map", yourUserName, selectedUserName, null, true, latLng);
             adapter.addMessage(message);
             DataBase.getInstance().addMessageToHistory(message);
+            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
         }
     }
 

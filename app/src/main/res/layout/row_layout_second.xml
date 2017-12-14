@@ -35,13 +35,18 @@
         android:src="@drawable/example"/>
     <ImageView
         android:visibility="visible"
+        android:layout_gravity="right"
         android:id="@+id/other_map_iv"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="100dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/map"/>
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:src="@drawable/map"
+        android:background="@drawable/message2background"/>
 
 </LinearLayout>

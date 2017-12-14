@@ -182,10 +182,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         intent.putExtra("longitude", longitude.toString());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-//                        Bitmap bitmap=Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888);
-//                        Canvas canvas=new Canvas(bitmap);
-//                        Log.d("Artur",canvas.toString());
-
                         setResult(RESULT_OK,intent);
                         finish();
                     } else {
