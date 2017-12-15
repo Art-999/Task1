@@ -45,14 +45,6 @@ public class Message {
         this.sendToUser = sendToUser;
     }
 
-//    public Message(String messageText, boolean fromLeftUser, String sendFromUser, String sendToUser, Uri imageUri) {
-//        this.messageText = messageText;
-//        this.fromLeftUser = fromLeftUser;
-//        this.sendFromUser = sendFromUser;
-//        this.sendToUser = sendToUser;
-//        this.imageUri = imageUri;
-//    }
-
     public Message(String messageText, String sendFromUser, String sendToUser, Uri imageUri, boolean sendFromMe, LatLng latLng) {
         this.messageText = messageText;
         this.sendFromUser = sendFromUser;
@@ -60,24 +52,6 @@ public class Message {
         this.imageUri = imageUri;
         this.sendFromMe = sendFromMe;
         this.latLng = latLng;
-    }
-
-//    public Message(String messageText, boolean fromLeftUser, Uri image) {
-//        this.messageText = messageText;
-//        this.fromLeftUser = fromLeftUser;
-//        this.imageUri = image;
-//    }
-
-    //avelacrac
-    public Message(String messageText, String sendFromUser, String sendToUser) {
-        this.messageText = messageText;
-        this.sendFromUser = sendFromUser;
-        this.sendToUser = sendToUser;
-    }
-
-    public Message(String messageText, boolean fromLeftUser) {
-        this.messageText = messageText;
-        this.fromLeftUser = fromLeftUser;
     }
 
 
@@ -123,11 +97,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "messageText='" + messageText + '\'' +
-                ", sendFromUser='" + sendFromUser + '\'' +
-                ", sendToUser='" + sendToUser + '\'' +
-                ", imageUri=" + imageUri +
-                '}';
+        return "Message{" + "messageText='" + messageText + '\'' + ", sendFromUser='" + sendFromUser + '\'' + ", sendToUser='" + sendToUser + '\'' + ", imageUri=" + imageUri + '}';
     }
 }
